@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Typography, Stack } from '@mui/material';
 
 import { IconUsers } from "@tabler/icons-react";
-import useBook from '@/hook/user/useBook';
+import useBook from '@/hook/user/useBooking';
 import { useAppSelector } from '@/lib/hooks';
 
 const valueTime = [
@@ -52,7 +52,7 @@ const valueTime = [
 
 export default function Time() {
 
-    const [selectPeople, setSelectPeople] = useState('')
+    const [selectPeople, setSelectPeople] = useState(1)
     const [more, setMore] = useState(false)
 
     const SelectPeople = (value) => {
@@ -62,7 +62,7 @@ export default function Time() {
     }
 
     const { getPeople } = useBook()
-    const currentPeoPle = useAppSelector((state) => state.reducer.book.people)
+    const currentPeoPle = useAppSelector((state) => state.reducer.booking.people)
 
     useEffect(() => {           // lay gia tri vao reudux
         setSelectPeople(currentPeoPle)

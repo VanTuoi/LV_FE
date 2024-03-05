@@ -16,7 +16,7 @@ const Dashboard = ({ params }) => {
             <Grid container spacing={3}>
                 <Grid item xs={12} lg={12}>
                     <CusTomBreadcrumbs params={params}></CusTomBreadcrumbs>
-                    <BackGroundImage></BackGroundImage >
+                    {/* <BackGroundImage></BackGroundImage > */}
                 </Grid>
                 <Grid item xs={12} lg={1}>
                 </Grid>

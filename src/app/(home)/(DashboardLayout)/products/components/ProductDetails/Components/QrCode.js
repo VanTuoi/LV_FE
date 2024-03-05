@@ -10,9 +10,10 @@ import Typography from '@mui/material/Typography';
 
 import GetAppIcon from '@mui/icons-material/GetApp';
 
-export default function SimpleBackdrop({ isShow, setIsShow }) {
-    const [open, setOpen] = useState(isShow);
+export default function SimpleBackdrop({ base64ImgQr, isShow, setIsShow }) {
 
+    const [open, setOpen] = useState(isShow);
+    const [base64ImgQrToProps, setBase64ImgQrToProps] = useState()
     const handleClose = () => {
         setOpen(false);
         setIsShow(false)
@@ -21,6 +22,11 @@ export default function SimpleBackdrop({ isShow, setIsShow }) {
     useEffect(() => {
         handleOpen()
     }, [isShow]);
+
+    useEffect(() => {
+        setBase64ImgQrToProps(base64ImgQr)
+        console.log('base64ImgQr', base64ImgQr);
+    }, [base64ImgQr]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -43,13 +49,13 @@ export default function SimpleBackdrop({ isShow, setIsShow }) {
 
     const handleDownload = async (e) => {
         try {
-            const result = await fetch(urlImg, {
+            const result = await fetch(base64ImgQrToProps, {
                 method: "GET",
                 headers: {}
             });
             const blob = await result.blob();
             const url = URL.createObjectURL(blob);
-            download("test", url);
+            download("myQr", url);
             URL.revokeObjectURL(url);
         } catch (error) {
             console.error(error);
@@ -66,27 +72,31 @@ export default function SimpleBackdrop({ isShow, setIsShow }) {
             >
                 {/* <CircularProgress color="inherit" /> */}
                 <DashboardCard DashboardCard title="">
-                    <Box sx={{ height: '500px', width: '400px' }}>
+                    <Box sx={{ height: '450px', width: '400px' }}>
                         <Stack spacing={2} direction="column" alignItems="center">
                             <div>
                                 <img
+                                    style={{ Maxwidth: '350px', height: 'auto' }}
+                                    src={base64ImgQrToProps}
+                                    alt="Base64 Image" />
+                                {/* <img
                                     style={{ maxWidth: '100%', height: 'auto' }}
-                                    src={urlImg} alt="Ảnh mô tả" />
+                                    src={urlImg} alt="Ảnh mô tả" /> */}
                             </div>
                             <Typography variant="subtitle1">
-                                (Vui lòng giữu mã Qr để check in vào quán)
+                                (Vui lòng giữ mã Qr để check in vào quán)
                             </Typography>
                             <Stack spacing={2} direction="row" alignItems="center">
+                                <Button
+                                    variant="text"
+                                    onClick={handleClose}
+                                >Thoát
+                                </Button>
                                 <Button
                                     startIcon={<GetAppIcon />}
                                     variant="contained"
                                     onClick={handleDownload}
                                 >Tải xuống
-                                </Button>
-                                <Button
-                                    variant="text"
-                                    onClick={handleClose}
-                                >Thoát
                                 </Button>
                             </Stack>
 

@@ -28,6 +28,7 @@ const useSearch = () => {
     }
     const getPeople = (value) => {
         setPeople(value)
+        console.log('people....', people);
         // console.log('people: ', people);
     }
     const getSearchContent = (value) => {

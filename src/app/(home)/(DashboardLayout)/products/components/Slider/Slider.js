@@ -1,3 +1,4 @@
+'strict mode'
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
@@ -29,36 +30,6 @@ const images = [
     label: 'Bali, Indonesia',
     imgPath:
       'https://chuphinhmenu.com/wp-content/uploads/2023/06/concept-chup-anh-do-uong-2023-0013.jpg',
-  },
-  {
-    label: 'Serbia',
-    imgPath:
-      'https://chuphinhmenu.com/wp-content/uploads/2023/06/concept-chup-anh-do-uong-2023-0002.jpg',
-  },
-  {
-    label: 'Serbia',
-    imgPath:
-      'https://chuphinhmenu.com/wp-content/uploads/2023/06/concept-chup-anh-do-uong-2023-0002.jpg',
-  },
-  {
-    label: 'Serbia',
-    imgPath:
-      'https://chuphinhmenu.com/wp-content/uploads/2023/06/concept-chup-anh-do-uong-2023-0002.jpg',
-  },
-  {
-    label: 'Serbia',
-    imgPath:
-      'https://chuphinhmenu.com/wp-content/uploads/2023/06/concept-chup-anh-do-uong-2023-0002.jpg',
-  },
-  {
-    label: 'Serbia',
-    imgPath:
-      'https://chuphinhmenu.com/wp-content/uploads/2023/06/concept-chup-anh-do-uong-2023-0002.jpg',
-  },
-  {
-    label: 'Serbia',
-    imgPath:
-      'https://chuphinhmenu.com/wp-content/uploads/2023/06/concept-chup-anh-do-uong-2023-0002.jpg',
   },
   {
     label: 'Serbia',
@@ -104,6 +75,7 @@ function SwipeableTextMobileStepper() {
                 variant="rectangular"
               >
                 <Box
+
                   zIndex={0}
                   component="img"
                   style={{ maxWidth: '100%' }}

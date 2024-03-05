@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -6,9 +6,11 @@ import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { Typography, Divider, Stack } from '@mui/material';
+import { Typography, Divider, Stack, Alert } from '@mui/material';
 import dynamic from 'next/dynamic'
 import DashboardCard from '@/app/(home)/(DashboardLayout)/components/shared/DashboardCard';
+
+import useBooking from '@/hook/user/useBooking'
 
 import Time from './Components/Options/Time'
 
@@ -30,20 +32,47 @@ const steps = [
     },
 ];
 
+
 export default function MakeABooking() {
 
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [isSelect, setIsSelect] = React.useState(true);
-    const [isShow, setIsShow] = React.useState(false);
+    const [activeStep, setActiveStep] = useState(0);
+    const [isSelect, setIsSelect] = useState(true);
+    const [isShow, setIsShow] = useState(false);
+    const [base64ImgQr, setBase64ImgQr] = useState(null);
+    const [errorMesager, SeterrorMesager] = useState(null);
 
-    const handleBook = () => {
-        setIsShow(true)
-    };
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+    const { Booking, CheckTimeBooking } = useBooking()
+
+
+    const handleBook = async () => {
+        let qrCode = await Booking();
+        if (qrCode) {
+            SeterrorMesager(null)
+            setBase64ImgQr(qrCode)
+            setIsShow(true)
+            handleReset()
+        } else {
+            SeterrorMesager('Xin lỗi, quá trình đặt bàn thực hiện không thành công, vui lòng thử lại sau ít phút nữa.')
+        }
     };
 
-    const handleBack = () => {
+    const handleNext = async (index) => {
+        if (index === 1) {
+            let check = await CheckTimeBooking()
+            if (check === true) {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1);
+                SeterrorMesager(null)
+            } else {
+                SeterrorMesager('Thời gian giữa 2 lần đặt phải cách nhau ít nhất 2 giờ')
+            }
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
+    };
+
+    const handleBack = (index) => {
+        SeterrorMesager(null)
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
@@ -64,7 +93,8 @@ export default function MakeABooking() {
     };
     return (
         <DashboardCard DashboardCard title="">
-            {isShow && <QrCode isShow={isShow} setIsShow={setIsShow}></QrCode>}
+
+            {isShow && <QrCode base64ImgQr={base64ImgQr} isShow={isShow} setIsShow={setIsShow}></QrCode>}
             {isSelect ? (
                 <>
                     <Box sx={{ maxWidth: 400 }}>
@@ -74,29 +104,31 @@ export default function MakeABooking() {
                                     <StepLabel
                                         optional={
                                             index === 2 ? (
-                                                <Typography variant="caption">Bước cuối cùng</Typography>
+                                                <Typography variant="caption"></Typography>
                                             ) : null
                                         }
                                     >
-                                        {step.label}
+                                        <Typography variant="subtitle2">{step.label}</Typography>
+
                                     </StepLabel>
                                     <StepContent>
                                         {renderStepContent(index)}
+                                        {index === 1 ? errorMesager && <Typography variant="subtitle2" sx={{ color: 'red', mt: 2, mb: 2 }}>{errorMesager}</Typography> : null}
                                         <Box sx={{ mb: 0 }}>
                                             <div>
                                                 <Button
-                                                    variant="contained"
-                                                    onClick={handleNext}
-                                                    sx={{ mt: 1, mr: 1 }}
-                                                >
-                                                    {index === steps.length - 1 ? 'Hoàn thành' : 'Tiếp theo'}
-                                                </Button>
-                                                <Button
                                                     disabled={index === 0}
-                                                    onClick={handleBack}
+                                                    onClick={() => handleBack(index)}
                                                     sx={{ mt: 0, mr: 1 }}
                                                 >
                                                     Quay lại
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={() => handleNext(index)}
+                                                    sx={{ mt: 1, mr: 1 }}
+                                                >
+                                                    {index === steps.length - 1 ? 'Hoàn thành' : 'Tiếp theo'}
                                                 </Button>
                                             </div>
                                         </Box>
@@ -105,8 +137,9 @@ export default function MakeABooking() {
                             ))}
                         </Stepper>
                         {activeStep === steps.length && (
-                            <Paper square elevation={0} sx={{ p: 3 }}>
-                                <Typography>All steps completed - you&apos;re finished</Typography>
+                            <Paper square elevation={0} sx={{ p: 1 }}>
+                                {!errorMesager && <Typography variant="subtitle2">Nhấn đặt bàn để hoàn thành</Typography>}
+                                {errorMesager && <Typography variant="subtitle2" sx={{ color: 'red' }}>{errorMesager}</Typography>}
                                 <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
                                     Quay lại
                                 </Button>

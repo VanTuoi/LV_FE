@@ -29,7 +29,7 @@ const Locate = () => {
                 <Typography variant="h3" component="h3">
                     The Coffee House
                 </Typography>
-                <Typography variant="h7" component="h7" sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant="h6" component="h6" sx={{ display: 'flex', alignItems: 'center' }}>
                     <IconMapPinFilled sx={{ fontSize: 'small', mr: 1 }} /> {/* mr: 1 để thêm khoảng cách giữa biểu tượng và văn bản */}
                     Số 56, Đ. 3 Tháng 2, Xuân Khánh, Ninh Kiều, Cần Thơ
                 </Typography>
