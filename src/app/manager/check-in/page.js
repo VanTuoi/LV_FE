@@ -1,7 +1,7 @@
 'use client';
 import { Paper, Box, Grid, Stack, Backdrop } from '@mui/material';
-import PageContainer from '@/app/(home)/(DashboardLayout)/components/container/PageContainer';
-import DashboardCard from '@/app/(home)/(DashboardLayout)/components/shared/DashboardCard';
+import PageContainer from '@/app/(home)/components/container/PageContainer';
+import DashboardCard from '@/app/(home)/components/shared/DashboardCard';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Scanner from './ScannerQr'
 import DetailsTicket from './DetailsTicket'

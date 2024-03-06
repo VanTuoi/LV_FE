@@ -1,19 +1,16 @@
 import { useState } from "react";
 
 import axios from "axios";
-import { treeData } from '@/utils/DSQuanHuyen'
+import { treeData } from '@/utils/dsQuanHuyen'
 import getCurrentDateTime from "@/utils/getCurrentDateTime";
 
 import { useAppDispatch } from "@/lib/hooks";
-import { useDispatch } from 'react-redux';
 
-import searchSlice, { findLocation, notAccectLocate, selectLocateToMenu } from '@/lib/features/search/searchSlice'
+import searchSlice, { findLocation, notAccectLocate, selectLocateToMenu } from '@/lib/features/searchSlice'
 
-import { userServices } from '@/services/index'
-import { useRouter } from 'next/navigation'
 const useSearch = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const currentDate = new Date();
 

@@ -1,22 +1,15 @@
+
+//Third-party
 import { useEffect, useState } from "react";
+import bookSlice, { } from '@/lib/features/bookingSlice'
 
+// In the Project
 import axios from "@/utils/axios";
-import { treeData } from '@/utils/DSQuanHuyen'
-import getCurrentDateTime from "@/utils/getCurrentDateTime";
+import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 
-import { useAppDispatch } from "@/lib/hooks";
-import { useDispatch } from 'react-redux';
+const useBooking = () => {
 
-import bookSlice, { } from '@/lib/features/booking/bookingSlice'
-
-import { userServices } from '@/services/index'
-import { useRouter } from 'next/navigation'
-import { useAppSelector } from '@/lib/hooks';
-const useSearch = () => {
-
-    const dispatch = useDispatch()
-
-    const currentDate = new Date();
+    const dispatch = useAppDispatch()
 
     const [time, setTime] = useState(useAppSelector((state) => state.reducer.booking.time))
     const [date, setDate] = useState(useAppSelector((state) => state.reducer.booking.date))
@@ -25,22 +18,24 @@ const useSearch = () => {
     let a = useAppSelector((state) => state.reducer.booking.people)
     let b = useAppSelector((state) => state.reducer.booking.time)
     let c = useAppSelector((state) => state.reducer.booking.date)
+
     useEffect(() => {
         setPeople(a)
         setTime(b)
         setDate(c)
     }, [a, b, c]);
 
+
     const getTime = (value) => {
         setTime(value)
         dispatch(bookSlice.actions.setTime(value))
-        // console.log('time: ', time);
     }
+
     const getPeople = (value) => {
         setPeople(value)
         dispatch(bookSlice.actions.setPeoPle(value))
-        // console.log('people: ', people);
     }
+
     const getDate = (value) => {
         dispatch(bookSlice.actions.setDate(value))
     }
@@ -56,7 +51,7 @@ const useSearch = () => {
         }
     };
 
-    const Booking = async () => {
+    const booking = async () => {
         try {
             const timeString = time;
             const currentDate = new Date(date);
@@ -84,7 +79,7 @@ const useSearch = () => {
         }
     }
 
-    const CheckTimeBooking = async () => {
+    const checkTimeBooking = async () => {
         // Chuỗi thời gian
         const timeString = time;
         const currentDate = new Date(date);
@@ -109,7 +104,7 @@ const useSearch = () => {
         }
     }
 
-    return { getDate, getTime, getPeople, Booking, CheckTimeBooking }
+    return { getDate, getTime, getPeople, booking, checkTimeBooking }
 }
 
-export default useSearch
+export default useBooking

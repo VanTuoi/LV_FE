@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-import CustomTextField from "@/app/(home)/(DashboardLayout)/components/forms/theme-elements/CustomTextField";
-import CustomTypography from "@/app/(home)/(DashboardLayout)/components/forms/theme-elements/CustomTypography";
+import CustomTextField from "@/app/(home)/components/forms/theme-elements/CustomTextField";
+import CustomTypography from "@/app/(home)/components/forms/theme-elements/CustomTypography";
 import useAuth from "@/hook/auth/useLogin"
 
 const AuthLogin = ({ title, subtitle, subtext }) => {

@@ -8,7 +8,7 @@ import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { useState } from "react";
-import useTableBookingSchedule from '@/hook/manager/use-list-booking'
+import useTableBookingSchedule from '@/hook/manager/useListBooking'
 
 
 let listDayViews = {};

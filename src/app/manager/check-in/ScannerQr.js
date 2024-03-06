@@ -6,7 +6,7 @@ import { Typography, Box, Button, Stack } from '@mui/material';
 import { IconAperture, IconApertureOff } from "@tabler/icons-react";
 
 // In the Project
-import CheckIn from '@/hook/manager/use-check-in'
+import CheckIn from '@/hook/manager/useCheckIn'
 
 const DESIRED_FPS = 10; // Đặt FPS
 const intervalTime = 1000 / DESIRED_FPS;

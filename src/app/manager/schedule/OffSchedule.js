@@ -12,7 +12,7 @@ import { useState } from "react";
 
 import { IconCoffeeOff } from "@tabler/icons-react";
 
-import Schedule from '@/hook/manager/use-activity-schedule'
+import Schedule from '@/hook/manager/useActivitySchedule'
 
 
 let listDayViews = {};
