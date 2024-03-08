@@ -67,7 +67,7 @@ const useBooking = () => {
             });
 
             console.log('response', response);
-            if (response && response.errorCode == '0') {
+            if (response && response.status === 0) {
                 return response.data;
             } else {
                 console.log('Error', response);
@@ -91,7 +91,7 @@ const useBooking = () => {
                 U_Id: '1',
             })
             // console.log('response', response);
-            if (response && response.errorCode == '0') {
+            if (response && response.status === 0) {
                 return response.data;
             }
             else {

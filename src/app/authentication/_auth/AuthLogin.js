@@ -10,13 +10,14 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-import CustomTextField from "@/app/(home)/components/forms/theme-elements/CustomTextField";
-import CustomTypography from "@/app/(home)/components/forms/theme-elements/CustomTypography";
+import CustomTextField from "@/app/authentication/components/forms/CustomTextField";
+import CustomTextFieldPassword from "@/app/authentication/components/forms/CustomTextFieldPassword";
+import CustomTypography from "@/app/authentication/components/forms/CustomTypography";
 import useAuth from "@/hook/auth/useLogin"
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
 
-  const { checkUserName, checkPassWord, checkLogin, errorLogin, errorUserName, errorPassWord } = useAuth();
+  const { checkPhone, checkPassWord, login, errorLogin, errorUserName, errPhone, errorPassWord } = useAuth();
   title = errorLogin
   return (
     <>
@@ -37,10 +38,10 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             htmlFor="username"
             mb="5px"
           >
-            Tên đăng nhập
+            Số điện thoại đăng nhập
           </Typography>
-          <CustomTextField onChange={(event) => checkUserName(event.target.value)} variant="outlined" fullWidth />
-          {errorUserName ? (<CustomTypography>{errorUserName}</CustomTypography>) : <p>{errorUserName}</p>}
+          <CustomTextField onChange={(event) => checkPhone(event.target.value)} variant="outlined" type="number" fullWidth />
+          {errPhone ? (<CustomTypography>{errPhone}</CustomTypography>) : ''}
         </Box>
         <Box mt="25px">
           <Typography
@@ -53,7 +54,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             Mật khẩu
           </Typography>
           <CustomTextField onChange={(event) => checkPassWord(event.target.value)} type="password" variant="outlined" fullWidth />
-          {errorPassWord ? (<CustomTypography>{errorPassWord}</CustomTypography>) : null}
+          {errorPassWord ? (<CustomTypography>{errorPassWord}</CustomTypography>) : ''}
         </Box>
         <Stack
           justifyContent="space-between"
@@ -64,7 +65,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           <FormGroup>
             <FormControlLabel
               control={<Checkbox defaultChecked />}
-              label="Remeber this Device"
+              label="Nhớ thiết bị này"
             />
           </FormGroup>
           <Typography
@@ -76,7 +77,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
               color: "primary.main",
             }}
           >
-            Forgot Password ?
+            Quên mật khẩu ?
           </Typography>
         </Stack>
       </Stack>
@@ -86,10 +87,10 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           variant="contained"
           size="large"
           fullWidth
-          onClick={() => checkLogin()}
+          onClick={() => login()}
           type="submit"
         >
-          Sign In
+          Đăng nhập
         </Button>
       </Box>
       {subtitle}

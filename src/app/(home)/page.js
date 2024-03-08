@@ -5,6 +5,8 @@ import PageContainer from '@/app/(home)/components/container/PageContainer';
 import Search from '@/app/(home)/components/dashboard/Search';
 import Locate from '@/app/(home)/components/dashboard/Locate';
 
+import Photo from '@/app/(home)/utilities/typography/page'
+
 const Dashboard = () => {
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
@@ -14,24 +16,13 @@ const Dashboard = () => {
 
           </Grid>
           <Grid item xs={12} lg={12}>
-            <Locate />
+            {/* <Locate /> */}
           </Grid>
           <Grid item xs={12} lg={12}>
             <Search />
           </Grid>
-          <Grid item xs={12} lg={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-              </Grid>
-              <Grid item xs={12}>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-          </Grid>
-          <Grid item xs={12} lg={8}>
-          </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} lg={12}>
+            {/* <Photo /> */}
           </Grid>
         </Grid>
       </Box>

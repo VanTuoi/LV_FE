@@ -29,7 +29,7 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: "Lịch nghĩ",
+    title: "Lịch nghỉ",
     icon: IconTypography,
     href: "/manager/schedule",
   },

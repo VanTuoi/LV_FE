@@ -18,7 +18,6 @@ const DetailsTicket = () => {
 
     useEffect(() => {
         setDetails(data);
-        console.log('Change:');
     }, [data]);
 
     const handleClick = () => {
@@ -46,7 +45,14 @@ const DetailsTicket = () => {
                         {details && details.timeCome}
                     </Typography>
                 </Stack>
-
+                <Stack direction="row" alignItems="center" spacing={2}>
+                    <Typography variant='h6' fontWeight="500" gutterBottom>
+                        Thời gian check in:
+                    </Typography>
+                    <Typography variant='h6' fontWeight="500" gutterBottom>
+                        {details && details.timeCheckIn}
+                    </Typography>
+                </Stack>
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <Typography variant='h6' fontWeight="500" gutterBottom>
                         Số lượng:

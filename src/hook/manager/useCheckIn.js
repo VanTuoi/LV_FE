@@ -25,23 +25,25 @@ const CheckIn = () => {
         const response = await axios.post('/api/v1/manager/check-in', {
             RT_Id: qrId
         });
-        if (response && response.errorCode == '0') {
-            if (response.errorMessage !== '' && response.data !== null) {
-                console.log('1', response.errorMessage);
+        if (response && response.status === 0) {
+            if (response.data !== null) {
+                console.log('checkInbyQr 1', response.message);
                 let data = {
-                    name: response.data.U_Id ? response.data.U_Id : 'Khách vãng lai',
-                    timeCome: dayjs(response.data.RT_DateTimeArrival).format('HH:mm DD/MM/YYYY'),
-                    number: response.data.RT_NumberOfParticipants,
-                    status: response.errorMessage
+                    name: response.data.detail && response.data.detail.U_Id !== null ? response.data.detail.U_Id : 'Khách vãng lai',
+                    timeCome: dayjs(response.data.detail.RT_DateTimeArrival).format('HH:mm DD/MM/YYYY'),
+                    timeCheckIn: response.data.timeCheckIn !== null ? dayjs(response.data.timeCheckIn).format('HH:mm DD/MM/YYYY') : '',
+                    number: response.data.detail.RT_NumberOfParticipants,
+                    status: response.message
                 };
                 dispatch(checkin.actions.setQrcheckin(data))
             } else {
-                console.log('2', response.errorMessage, response.data);
+                console.log('checkInbyQr 2', response.message, response.data);
                 let data = {
                     name: '',
                     timeCome: '',
+                    timeCheckIn: '',
                     number: '',
-                    status: response.errorMessage
+                    status: response.message
                 };
                 dispatch(checkin.actions.setQrcheckin(data))
             }

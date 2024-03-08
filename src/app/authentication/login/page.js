@@ -70,7 +70,7 @@ const Login = () => {
                       variant="h6"
                       fontWeight="500"
                     >
-                      New to Modernize?
+                      Bạn là người dùng mới ?
                     </Typography>
                     <Typography
                       component={Link}

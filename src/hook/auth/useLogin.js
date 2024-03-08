@@ -1,13 +1,17 @@
 import { useState } from "react";
-
-import { userServices } from '@/services/index'
 import { useRouter } from 'next/navigation'
+
+import axios from '@/utils/axios';
+
 const useAuth = () => {
 
     const [userName, setUserName] = useState('')
+    const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
+
     const [errorLogin, setErrorLogin] = useState(false);
     const [errorUserName, setErrorUserName] = useState(null);
+    const [errPhone, setErrorPhone] = useState('')
     const [errorPassWord, setErrorPassWord] = useState(null);
 
     const router = useRouter()
@@ -28,41 +32,27 @@ const useAuth = () => {
     //     return { isAuthenticated, messeger };
     // }
 
-    const checkLogin = async () => {
-        if (checkUserName(userName) && checkPassWord(password)) {
-            const data = await userServices.login(userName, password)
-            if (data) {
-                setErrorLogin(null)
-                // console.log('data', data);
-                if (data.EC === 0) {
-                    router.push('/')
-                }
-                if (data.EC === 1) {
-                    setErrorUserName('Không tìm thấy tài khoản')
-                }
-                if (data.EC === 2) {
-                    setErrorPassWord('Mật khẩu không đúng')
-                }
-            } else {
-                setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
-            }
-            return true
-        } else
-            setErrorLogin(false)
-    }
 
     const isValidUsername = (username) => {         // Tên đăng nhập từ 3-20 kí tự
         const regex = /^\S{3,20}$/;
         return regex.test(username);
     }
+
+    const isValidPhone = (phone) => {
+        // Đảm bảo số điện thoại là 10 số và bắt đầu bằng 0
+        const regex = /^0\d{9}$/;
+        // const regex = /^.*/;
+        return regex.test(phone);
+    };
+
     const isValidPassword = (password) => {            // Mật khẩu từ 8-20 kí tự, ít nhất 1 đặc biệt, 1 viết hoa, 1 viết thường
         // const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`[\]{}|\\:;<>?,./-]).{8,50}$/;
         const regex = /^.*/;
         return regex.test(password);
     }
 
+
     const checkUserName = (userName) => {
-        console.log('jhhe', userName);
         if (isValidUsername(userName) === false || !userName) {
             setErrorUserName('Tên đăng nhập phải từ 3-20 kí tự')
             setErrorLogin(true)
@@ -70,6 +60,17 @@ const useAuth = () => {
         } else {
             setUserName(userName)
             setErrorUserName(null)
+            return true
+        }
+    }
+
+    const checkPhone = (phone) => {
+        if (isValidPhone(phone) === false || !phone) {
+            setErrorPhone('Số điện thọa phải đủ 10 chữ số bắt đầu từ 0')
+            return false;
+        } else {
+            setPhone(phone)
+            setErrorPhone(null)
             return true
         }
     }
@@ -85,6 +86,38 @@ const useAuth = () => {
             return true
         }
     }
+
+    const login = async () => {
+        if (checkPhone(phone) && checkPassWord(password)) {
+            setErrorLogin(true)
+
+            const response = await axios.post('/api/v1/auth/login', {
+                U_PhoneNumber: phone,
+                U_Password: password,
+            });
+
+            if (response) {
+                if (response.status == 0) {    // thành công
+                    console.log('Data', response.data);
+                    
+                    router.push('http://localhost:3000/')
+                }
+                if (response.status == 1) {
+                    setErrorPhone('Không tìm thấy số điện thoại trên hệ thống')
+                }
+                if (response.status == 2) {
+                    setErrorPassWord('Mật khẩu không đúng')
+                    console.log('Mật khẩu không đúng');
+                }
+            } else {
+                console.log('Lỗi lấy dữ liệu', response);
+                setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
+            }
+        } else {
+            setErrorLogin(false)
+        }
+    }
+
     const logout = () => {
         try {
             dispatch(logout())
@@ -94,7 +127,7 @@ const useAuth = () => {
             router.push('/')
         }
     }
-    return { errorLogin, errorUserName, errorPassWord, checkUserName, checkPassWord, checkLogin, logout }
+    return { errorLogin, errorUserName, errPhone, errorPassWord, checkUserName, checkPhone, checkPassWord, login, logout }
 }
 
 export default useAuth

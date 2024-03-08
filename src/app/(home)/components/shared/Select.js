@@ -25,7 +25,7 @@ const CustomSelect = ({ listValue, children, click }) => {
         >
             {listItem && listItem.map((item) => (
                 <MenuItem key={item} value={item}>
-                    <Stack direction='row' justifyContent='space-between' alignItems='center' spacing={2}>
+                    <Stack direction='row' justifyContent='space-between' alignItems='center' spacing={0}>
                         {children} {item}
                     </Stack>
                 </MenuItem>

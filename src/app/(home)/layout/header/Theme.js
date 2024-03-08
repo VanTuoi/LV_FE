@@ -22,7 +22,7 @@ const Theme = () => {
 
     return (
         <FormControlLabel
-            control={<Switch checked={checked} onChange={handleChange} />}
+            control={<Switch size="small" checked={checked} onChange={handleChange} />}
             label={title}
         />
     );

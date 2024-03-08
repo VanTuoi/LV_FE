@@ -10,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
   OutlinedInput,
+  Typography,
 } from "@mui/material";
 
 import { IconListCheck, IconHeartPin, IconMapCheck, IconUser, IconUserCog, IconReport, IconUserExclamation } from "@tabler/icons-react";
@@ -28,7 +29,8 @@ const Profile = () => {
   return (
     <Box>
       <IconButton
-        size="large"
+        size="small"
+
         aria-label="show 11 new notifications"
         color="inherit"
         aria-controls="msgs-menu"
@@ -50,9 +52,10 @@ const Profile = () => {
         /> */}
         <Box
           sx={{
-            border: '2px solid', // Tùy chỉnh border ở đây
-            borderRadius: '50%', // Đảm bảo biểu tượng là hình tròn
-            padding: '4px 8px', // Tùy chỉnh khoảng cách giữa biểu tượng và border
+            color: 'gray',
+            // border: '2px solid', // Tùy chỉnh border ở đây
+            // borderRadius: '50%', // Đảm bảo biểu tượng là hình tròn
+            // padding: '2px 5px', // Tùy chỉnh khoảng cách giữa biểu tượng và border
           }}
         >
           <IconUser
@@ -74,11 +77,20 @@ const Profile = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         sx={{
           "& .MuiMenu-paper": {
-            width: "200px",
-            marginTop: '-12px'
+            width: "250px",
+            // height: '300px',
+            marginTop: '-10px'
           },
         }}
       >
+        <Box padding={2}>
+          <Typography variant="body1" fontWeight={400} >
+            Xin chào,
+            <Typography display="inline" variant="body1" fontWeight={500}>
+              {` Trần Văn A`}
+            </Typography>
+          </Typography>
+        </Box>
         <MenuItem>
           <ListItemIcon>
             <IconUserCog width={20} />
