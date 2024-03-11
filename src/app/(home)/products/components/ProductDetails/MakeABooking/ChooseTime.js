@@ -88,7 +88,6 @@ export default function Time() {
         const newTime = currentTime.set('hour', hours).set('minute', minutes);
 
         // Kiểm tra nếu date lớn hơn currentTime một ngày
-        console.log('dayjs(date)', dayjs(date));
         if (dayjs(date).isAfter(currentTime.add(1, 'day'), 'day')) {
             return true;
         }

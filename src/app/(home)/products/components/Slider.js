@@ -1,17 +1,16 @@
 'strict mode'
+
+// Third-party
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import { Box } from '@mui/material';
-import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import Skeleton from '@mui/material/Skeleton';
+import SwipeableViews from 'react-swipeable-views';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import { Button, Typography, Paper, useTheme, Box, Skeleton, MobileStepper } from '@mui/material';
+
+// In the Project
 import { height } from '@mui/system';
+import { DashboardCard } from '@/app/(home)/components/shared/DashboardCard';
+
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -39,6 +38,7 @@ const images = [
 ];
 
 function SwipeableTextMobileStepper() {
+
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
@@ -54,11 +54,13 @@ function SwipeableTextMobileStepper() {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
+
   const handleImageLoad = (index) => {
     setActiveImageIndex(index);
   };
 
   return (
+    // <DashboardCard>
     <Box sx={{ minWidth: 1100, maxWidth: 1200, height: 'auto', flexGrow: 1, position: 'relative' }}>
       <AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -160,6 +162,7 @@ function SwipeableTextMobileStepper() {
         }
       />
     </Box >
+    // </DashboardCard>
   );
 }
 

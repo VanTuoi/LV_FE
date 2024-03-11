@@ -3,16 +3,16 @@ import { Paper, Box, Grid, Stack, Backdrop } from '@mui/material';
 import PageContainer from '@/app/(home)/components/container/PageContainer';
 import DashboardCard from '@/app/(home)/components/shared/DashboardCard';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import Scanner from './ScannerQr'
-import DetailsTicket from './DetailsTicket'
-import CheckinHistory from './CheckinHistory'
+import Scanner from './Components/ScannerQr'
+import DetailsTicket from './Components/DetailsTicket'
+import CheckinHistory from './Components/CheckinHistory'
 
 // import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 
 const CheckIn = () => {
 
-  // const handle = useFullScreenHandle();
+  // const handle = useFullScreenHandle();  // toàn mh
 
   return (
     <>

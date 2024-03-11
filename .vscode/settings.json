@@ -1,3 +1,5 @@
 {
-    "editor.maxTokenizationLineLength": 200000
+    "editor.maxTokenizationLineLength": 200000,
+    "workbench.editor.enablePreview": true,
+    "workbench.editor.enablePreviewFromQuickOpen": true
 }

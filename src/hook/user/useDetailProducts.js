@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const useDetailProducts = () => {
 
-
     const sortListReview = (listData, iSascending, sortField) => {
         const sortedData = listData.slice();
 
@@ -19,7 +18,6 @@ const useDetailProducts = () => {
 
         return sortedData;
     }
-
 
     return { sortListReview }
 }

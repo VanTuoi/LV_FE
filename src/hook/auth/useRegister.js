@@ -122,7 +122,10 @@ const useRegister = () => {
         }
     }
 
-    return { register, checkName, checkEmail, checkPhone, checkPassWord, errName, errEmail, errPhone, errPassword, isErrorRegister }
+    return {
+        register, checkName, checkEmail, checkPhone, checkPassWord,
+        errName, errEmail, errPhone, errPassword, isErrorRegister
+    }
 }
 
 

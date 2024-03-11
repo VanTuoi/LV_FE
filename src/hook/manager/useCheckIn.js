@@ -22,33 +22,38 @@ const CheckIn = () => {
     };
 
     const checkInbyQr = async (qrId) => {
-        const response = await axios.post('/api/v1/manager/check-in', {
-            RT_Id: qrId
-        });
-        if (response && response.status === 0) {
-            if (response.data !== null) {
-                console.log('checkInbyQr 1', response.message);
-                let data = {
-                    name: response.data.detail && response.data.detail.U_Id !== null ? response.data.detail.U_Id : 'Khách vãng lai',
-                    timeCome: dayjs(response.data.detail.RT_DateTimeArrival).format('HH:mm DD/MM/YYYY'),
-                    timeCheckIn: response.data.timeCheckIn !== null ? dayjs(response.data.timeCheckIn).format('HH:mm DD/MM/YYYY') : '',
-                    number: response.data.detail.RT_NumberOfParticipants,
-                    status: response.message
-                };
-                dispatch(checkin.actions.setQrcheckin(data))
+
+        try {
+            const response = await axios.post('/api/v1/manager/check-in', {
+                RT_Id: qrId
+            });
+            if (response && response.status === 0) {
+                if (response.data !== null) {
+                    console.log('checkInbyQr 1', response.message);
+                    let data = {
+                        name: response.data.detail && response.data.detail.U_Id !== null ? response.data.detail.U_Id : 'Khách vãng lai',
+                        timeCome: dayjs(response.data.detail.RT_DateTimeArrival).format('HH:mm DD/MM/YYYY'),
+                        timeCheckIn: response.data.timeCheckIn !== null ? dayjs(response.data.timeCheckIn).format('HH:mm DD/MM/YYYY') : '',
+                        number: response.data.detail.RT_NumberOfParticipants,
+                        status: response.message
+                    };
+                    dispatch(checkin.actions.setQrcheckin(data))
+                } else {
+                    console.log('checkInbyQr 2', response.message, response.data);
+                    let data = {
+                        name: '',
+                        timeCome: '',
+                        timeCheckIn: '',
+                        number: '',
+                        status: response.message
+                    };
+                    dispatch(checkin.actions.setQrcheckin(data))
+                }
             } else {
-                console.log('checkInbyQr 2', response.message, response.data);
-                let data = {
-                    name: '',
-                    timeCome: '',
-                    timeCheckIn: '',
-                    number: '',
-                    status: response.message
-                };
-                dispatch(checkin.actions.setQrcheckin(data))
+                console.log('Lỗi lấy dữ liệu', response);
             }
-        } else {
-            console.log('Lỗi lấy dữ liệu', response);
+        } catch (error) {
+            console.error('Đã xảy ra lỗi khi gọi API trong chức năng checkin: ', error);
         }
     }
 

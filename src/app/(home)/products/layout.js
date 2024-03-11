@@ -1,8 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
+import { Box } from '@mui/material';
 
-import { Breadcrumbs, MenuItem, TextField, Typography, FormControl, InputLabel, Link, Box } from '@mui/material';
+export default function RootLayout({ children }) {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  return (
+    <Box>
+      {children}
+    </Box>
+  );
+}
+
 
 // const MainWrapper = styled("div")(() => ({
 //   display: "flex",
@@ -20,14 +31,3 @@ import { Breadcrumbs, MenuItem, TextField, Typography, FormControl, InputLabel, 
 //   backgroundColor: "transparent",
 //   // border: '2px solid green'
 // }));
-
-export default function RootLayout({ children }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-
-  return (
-    <Box>
-      {children}
-    </Box>
-  );
-}

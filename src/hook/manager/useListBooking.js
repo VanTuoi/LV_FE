@@ -20,25 +20,29 @@ const useActivitySchedule = () => {
     };
     const getListBooking = async (month) => {
         const time = new Date(month).getTime()
-        const response = await axios.get('/api/v1/manager/booking-schedule', {
-            params: { month: time }
-        });
-        if (response && response.errorCode == '0') {
-            let list = response.data;
-            setUniqueDays(Array.from(new Set(list.map(item => formatDate(item.RT_BookingDate)))));
-            setFrequency(list.reduce((acc, item) => {
-                const day = formatDate(item.RT_BookingDate);
-                if (acc[day]) {
-                    acc[day] += 1;
-                } else {
-                    acc[day] = 1;
-                }
-                return acc;
-            }, {}));
-        } else {
-            console.log('Lỗi lấy dữ liệu', response);
+        try {
+            const response = await axios.get('/api/v1/manager/booking-schedule', {
+                params: { month: time }
+            });
+            if (response && response.errorCode == '0') {
+                let list = response.data;
+                setUniqueDays(Array.from(new Set(list.map(item => formatDate(item.RT_BookingDate)))));
+                setFrequency(list.reduce((acc, item) => {
+                    const day = formatDate(item.RT_BookingDate);
+                    if (acc[day]) {
+                        acc[day] += 1;
+                    } else {
+                        acc[day] = 1;
+                    }
+                    return acc;
+                }, {}));
+            } else {
+                console.log('Lỗi lấy dữ liệu', response);
+            }
+        } catch (error) {
+            // Xử lý lỗi, ví dụ timeout hoặc các lỗi khác
+            console.error('Đã xảy ra lỗi khi gọi API: ', error);
         }
-
     }
 
     return { getListBooking, uniqueDays, frequency }

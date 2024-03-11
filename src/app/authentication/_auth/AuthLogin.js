@@ -64,8 +64,8 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
         >
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="Nhớ thiết bị này"
+              control={<Checkbox />}
+              label="Tôi là chủ cửa hàng"
             />
           </FormGroup>
           <Typography

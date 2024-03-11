@@ -7,6 +7,7 @@ import {
   IconTypography,
   IconUserPlus,
   IconPencilCheck,
+  IconSettings
 } from "@tabler/icons-react";
 
 import { uniqueId } from "lodash";
@@ -35,9 +36,9 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: "Handle...",
-    icon: IconCopy,
-    href: "/",
+    title: "Quản lý cửa hàng",
+    icon: IconSettings,
+    href: "/manager/manager-store",
   },
   {
     navlabel: true,

@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Stack, Typography, List, IconButton, Avatar, Box, Skeleton, Select, MenuItem, Divider } from '@mui/material';
-import { IconFlag, IconUserCircle, IconStar } from "@tabler/icons-react";
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
 
+// Third-party
+import { styled } from '@mui/material/styles';
+import React, { useEffect, useState } from 'react';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { IconFlag, IconUserCircle, IconStar } from "@tabler/icons-react";
+import { Stack, Typography, List, IconButton, Avatar, Box, Skeleton, Select, MenuItem, Divider } from '@mui/material';
+
+// In the Project
 import useDetailProducts from '@/hook/user/useDetailProducts';
+
 
 const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -40,23 +44,23 @@ const list = [
 
 ]
 
-export default function Reviews({ tags }) {
+export default function Reviews() {
 
     const { sortListReview } = useDetailProducts()
 
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const delay = 2000; // Thời gian delay là 5000ms (5 giây)
+        const delay = 1000;               // Thời gian delay là 2000ms (5 giây)
         const timer = setTimeout(() => {
             setIsLoading(false);
         }, delay);
         return () => clearTimeout(timer); // Xóa timer khi component bị unmount
     }, []);
 
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
 
-    const [listReview, setListReview] = React.useState(list);
+    const [listReview, setListReview] = useState([]);
 
     const [typeSort, setTypeSort] = useState('Newest');
 
@@ -70,7 +74,7 @@ export default function Reviews({ tags }) {
 
     };
 
-    const handleReport = (event) => {
+    const handleReport = (event) => {                   // Gọi hook
         console.log('report');
     };
 
@@ -150,47 +154,52 @@ export default function Reviews({ tags }) {
                     </Stack >)
                     :
                     (
-                        listReview.map((item, index) => (
-                            <>
-                                <Stack direction="row" spacing={1} alignItems="baseline" justifyContent="space-between">
-                                    <Stack direction="row" spacing={3}>
-                                        <Stack direction="column" spacing={1} alignItems={'center'}>
-                                            <Avatar sx={{ backgroundColor: '#c3c2c2', height: '45px', width: '45px' }}>
-                                                <IconUserCircle />
-                                            </Avatar>
-                                            <Typography variant="h7" component="h7" minWidth={60} sx={{ textAlign: 'center' }}>
-                                                {item.name}
-                                            </Typography>
-                                        </Stack>
-                                        <Stack direction="column" spacing={1} alignItems={'flex-start'} justifyContent={'flex-start'}>
-                                            <Typography variant="body2" sx={{ padding: '3px', backgroundColor: 'rgb(239, 239, 239)', borderRadius: '4px' }}>
-                                                {item.time}
-                                            </Typography>
-                                            <Stack direction="row">
-                                                {[...Array(item.star)].map((_, index) => (
-                                                    <Box key={index} sx={{ fontSize: '0.5rem' }}>
-                                                        <IconStar key={index} />
-                                                    </Box>
-                                                ))}
+                        listReview.length === 0 ? (
+                            <Typography variant="h6" component="h6" minWidth={60} sx={{ textAlign: 'center' }}>
+                                Hãy trở thành khách hàng đầu tiên đánh giá cửa hàng này
+                            </Typography>
+                        ) : (
+                            listReview.map((item, index) => (
+                                <React.Fragment key={index}>
+                                    <Stack direction="row" spacing={1} alignItems="baseline" justifyContent="space-between">
+                                        <Stack direction="row" spacing={3}>
+                                            <Stack direction="column" spacing={1} alignItems={'center'}>
+                                                <Avatar sx={{ backgroundColor: '#c3c2c2', height: '45px', width: '45px' }}>
+                                                    <IconUserCircle />
+                                                </Avatar>
+                                                <Typography variant="h7" component="h7" minWidth={60} sx={{ textAlign: 'center' }}>
+                                                    {item.name}
+                                                </Typography>
                                             </Stack>
-                                            <Typography variant="h7">
-                                                {item.review}
-                                            </Typography>
+                                            <Stack direction="column" spacing={1} alignItems={'flex-start'} justifyContent={'flex-start'}>
+                                                <Typography variant="body2" sx={{ padding: '3px', backgroundColor: 'rgb(239, 239, 239)', borderRadius: '4px' }}>
+                                                    {item.time}
+                                                </Typography>
+                                                <Stack direction="row">
+                                                    {[...Array(item.star)].map((_, index) => (
+                                                        <Box key={index} sx={{ fontSize: '0.5rem' }}>
+                                                            <IconStar key={index} />
+                                                        </Box>
+                                                    ))}
+                                                </Stack>
+                                                <Typography variant="h7">
+                                                    {item.review}
+                                                </Typography>
+                                            </Stack>
                                         </Stack>
-                                    </Stack>
 
-                                    <LightTooltip title="Báo cáo bình luận" placement="right" >
-                                        < IconButton aria-label="comment"
-                                            onClick={handleReport}
-                                        >
-                                            <IconFlag />
-                                        </IconButton>
-                                    </LightTooltip>
-                                </Stack>
-                                < Divider sx={{ marginTop: '5px', marginBottom: '5px' }} />
-                            </>
-                        ))
-                    )}
+                                        <LightTooltip title="Báo cáo bình luận" placement="right">
+                                            <IconButton aria-label="comment" onClick={handleReport}>
+                                                <IconFlag />
+                                            </IconButton>
+                                        </LightTooltip>
+                                    </Stack>
+                                    <Divider sx={{ marginTop: '5px', marginBottom: '5px' }} />
+                                </React.Fragment>
+                            ))
+                        )
+                    )
+                }
             </List>
         </Stack >
     );

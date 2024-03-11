@@ -10,11 +10,10 @@ import {
 // In the Project
 import useBooking from '@/hook/user/useBooking'
 import DashboardCard from '@/app/(home)/components/shared/DashboardCard';
-
-import Time from './Components/OptionsBooking/Time'
-import People from './Components/OptionsBooking/People'
-import QrCode from './Components/QrCode'
-const DateWithNoSSR = dynamic(() => import('./Components/OptionsBooking/Date'), { ssr: false })
+import ChooseTime from './ProductDetails/Components/MakeABooking/ChooseTime'
+import ChoosePeople from './ProductDetails/Components/MakeABooking/ChoosePeople'
+const ChooseDate = dynamic(() => import('./ProductDetails/Components/MakeABooking/ChooseDate'), { ssr: false })
+import QrCode from '@/app/(home)/products/components/ProductDetails/Components/MakeABooking/QrCode'
 
 
 const steps = [
@@ -30,7 +29,7 @@ const steps = [
 ];
 
 
-export default function MakeABooking() {
+export default function MakeTheBooking() {
 
     const { booking, checkTimeBooking } = useBooking()
 
@@ -79,11 +78,11 @@ export default function MakeABooking() {
     const renderStepContent = (index) => {
         switch (index) {
             case 0:
-                return <DateWithNoSSR></DateWithNoSSR>;
+                return <ChooseDate></ChooseDate>;
             case 1:
-                return <Time></Time>
+                return <ChooseTime></ChooseTime>
             case 2:
-                return <People></People>
+                return <ChoosePeople></ChoosePeople>
             default:
                 return <Typography>Default content</Typography>;
         }
