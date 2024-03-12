@@ -20,17 +20,17 @@ export default function Menus(props) {
         <Stack direction="column" spacing={1}>
             <Stack direction="row" spacing={1} alignItems="baseline" justifyContent="flex-start">
                 <Typography variant="h5" component="h5">
-                    Menu
+                    {/* Menu */}
                 </Typography>
-                {listMenu && listMenu.length > 0 ? (
-                    <Typography variant="body2" sx={{ padding: '3px', backgroundColor: '#EBEBEB', borderRadius: '4px' }}>
-                        (Cập nhật lần cuối: Tháng 1 năm 2024)
-                    </Typography>
-                )
-                    :
+                {listMenu && listMenu.length > 0 ?
                     (
+                        <Typography variant="body2" sx={{ padding: '3px', backgroundColor: '#EBEBEB', borderRadius: '4px' }}>
+                            (Cập nhật lần cuối: Tháng 1 năm 2024)
+                        </Typography>
+                    ) : (
                         <Skeleton variant="text" width={'100%'} />
-                    )}
+                    )
+                }
             </Stack>
             {listMenu && listMenu.length > 0 ?
                 (
@@ -51,9 +51,7 @@ export default function Menus(props) {
                             </ListItem>
                         ))}
                     </List>
-                )
-                :
-                (
+                ) : (
                     <Stack direction={'column'} spacing={2}>
                         <Skeleton variant="rectangular" width={'100%'} height={35} />
                         <Skeleton variant="rectangular" width={'100%'} height={35} />

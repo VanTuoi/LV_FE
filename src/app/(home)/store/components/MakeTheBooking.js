@@ -10,10 +10,10 @@ import {
 // In the Project
 import useBooking from '@/hook/user/useBooking'
 import DashboardCard from '@/app/(home)/components/shared/DashboardCard';
-import ChooseTime from './ProductDetails/Components/MakeABooking/ChooseTime'
-import ChoosePeople from './ProductDetails/Components/MakeABooking/ChoosePeople'
-const ChooseDate = dynamic(() => import('./ProductDetails/Components/MakeABooking/ChooseDate'), { ssr: false })
-import QrCode from '@/app/(home)/products/components/ProductDetails/Components/MakeABooking/QrCode'
+import ChooseTime from '@/app/(home)/store/components/storeDetails/MakeTheBooking/ChooseTime'
+import ChoosePeople from '@/app/(home)/store/components/storeDetails/MakeTheBooking/ChoosePeople'
+const ChooseDate = dynamic(() => import('@/app/(home)/store/components/storeDetails/MakeTheBooking/ChooseDate'), { ssr: false })
+import QrCode from '@/app/(home)/store/components/storeDetails/MakeTheBooking/QrCode'
 
 
 const steps = [

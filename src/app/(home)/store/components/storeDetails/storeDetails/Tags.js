@@ -14,7 +14,7 @@ export default function BasicChips(props) {
 
     return (
         <Box>
-            {listTags.length !== 0 ?
+            {listTags && listTags.length !== 0 ?
                 (
                     <Stack direction="row" spacing={1} alignItems={'center'}>
                         <Typography variant="h6" component="h6">
@@ -24,9 +24,7 @@ export default function BasicChips(props) {
                             <Chip key={index} label={tag} />
                         ))}
                     </Stack>
-                )
-                :
-                (
+                ) : (
                     <Skeleton variant="rectangular" width={'80%'} height={50} />
                 )
             }

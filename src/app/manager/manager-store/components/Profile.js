@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Link from '@mui/material/Link';
 import {
   Box,
   Typography,
@@ -13,14 +14,49 @@ import {
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import store from '@/lib/features/storeSlice'
 
 import TableMenu from './Menu'
+import Services from './Services'
 
-const Proflie = () => {
+const Proflie = (props) => {
 
   const dispatch = useAppDispatch()
+
+  let nameToRedux = useAppSelector((state) => state.reducer.store.name)
+  let locationToRedux = useAppSelector((state) => state.reducer.store.location)
+  let contentToRedux = useAppSelector((state) => state.reducer.store.content)
+  let menusToRedux = useAppSelector((state) => state.reducer.store.menus)
+  let servicesToRedux = useAppSelector((state) => state.reducer.store.services)
+  let tagsToRedux = useAppSelector((state) => state.reducer.store.tags)
+
+  useEffect(() => {
+    setName(nameToRedux)
+    setLocation(locationToRedux)
+    setContent(contentToRedux)
+    setMenus(menusToRedux)
+    setServices(servicesToRedux)
+    setTags(tagsToRedux)
+  }, [nameToRedux, locationToRedux, contentToRedux, menusToRedux, servicesToRedux, tagsToRedux])
+
+  const [name, setName] = useState();
+  const [location, setLocation] = useState();
+  const [content, setContent] = useState();
+  const [menus, setMenus] = useState();
+  const [services, setServices] = useState();
+  const [tags, setTags] = useState();
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText('copy url')
+      .then(() => {
+        alert("Đã copy vào bộ nhớ tạm!");
+      })
+      .catch(err => {
+        // Xử lý lỗi (nếu có)
+        console.error('Có lỗi xảy ra khi copy: ', err);
+      });
+  }
 
   const handleChangeName = (value) => {
     dispatch(store.actions.onChangeName(value))
@@ -28,7 +64,6 @@ const Proflie = () => {
   const handleChangeLocation = (value) => {
     dispatch(store.actions.onChangeLocation(value))
   }
-
 
   let listTag = [
     {
@@ -51,15 +86,17 @@ const Proflie = () => {
               Tên cửa hàng
             </Typography>
             <TextField
+              value={name}
+              variant="standard"
               size="small"
+              helperText="Việc thay đổi tên cửa hàng có thể khiến khách hàng không tìm thấy cửa hàng"
               onChange={(event) => handleChangeName(event.target.value)}
-              variant="outlined"
             // fullWidth
             />
           </Stack>
         </Grid>
         <Grid item xs={12} md={6} lg={7}>
-          <Stack direction={'column'}>
+          <Stack direction={'column'} >
             <Typography
               variant="subtitle1"
               fontWeight={600}
@@ -68,21 +105,13 @@ const Proflie = () => {
             >
               Liên kết đến trang cửa hàng của bạn là
             </Typography>
-            <Stack direction={'row'} spacing={1}>
-              <TextField
-                disabled
-                size="small"
-                value={'http://localhost:3000/products/TheCoffeeHouse'}
-                onChange={(event) => handleChangeLocation(event.target.value)}
-                variant="outlined"
-              // fullWidth 
-              />
-              <IconButton aria-label="delete">
-                <ContentCopyIcon />
+            <Stack direction={'row'} alignItems={'center'} spacing={1}>
+              <Link href="#" underline="hover">
+                {'http://localhost:3000/store?id=9'}
+              </Link>
+              <IconButton onClick={() => handleCopyUrl()} aria-label="delete">
+                <ContentCopyIcon sx={{ fontSize: '20px' }} />
               </IconButton>
-              <Button variant='text'>
-                Truy cập ngay
-              </Button>
             </Stack>
           </Stack>
 
@@ -98,40 +127,25 @@ const Proflie = () => {
               Vị trí cửa hàng
             </Typography>
             <TextField
+              value={location}
               size="small"
+              variant="standard"
               onChange={(event) => handleChangeLocation(event.target.value)}
-              variant="outlined"
             // fullWidth 
             />
           </Stack>
         </Grid>
 
         <Grid item xs={12} lg={12}>
-          <Stack direction={'column'}>
-            <Typography
-              variant="subtitle1"
-              fontWeight={600}
-              component="label"
-              mb="5px"
-            >
-              Tag
-            </Typography>
-            .....
-          </Stack>
         </Grid>
-        <Grid item xs={12} lg={12}>
-          <Stack direction={'column'} >
-            <Typography
-              variant="subtitle1"
-              fontWeight={600}
-              component="label"
-              mb="5px"
-            >
-              <TableMenu />
-            </Typography>
-            .....
-          </Stack>
+        <Grid item xs={12} lg={7}>
+          <TableMenu menus={menus} />
         </Grid>
+
+        <Grid item xs={12} lg={5}>
+          <Services services={services}></Services>
+        </Grid>
+
       </Grid>
     </>
   );

@@ -85,7 +85,7 @@ export default function Reviews() {
                 {isLoading ? (
                     <Skeleton animation="wave" variant="text" height={50} sx={{ fontSize: '1rem' }} >
                         <Typography variant="h6" component="h6" minWidth={60} sx={{ textAlign: 'center' }}>
-                            ##########
+                            ########################
                         </Typography>
                     </Skeleton>
                 )
@@ -95,22 +95,27 @@ export default function Reviews() {
                     </Typography>
                     )
                 }
-                <Select
-                    labelId="lg"
-                    id="lg"
-                    value={typeSort}
-                    size="small"
-                    onChange={handleChangeTypeSort}
-                >
-                    <MenuItem value={'Newest'}>Mới nhất</MenuItem>
-                    <MenuItem value={'HighestRating'}>Đánh giá cao</MenuItem>
-                    <MenuItem value={'LowestRaTing'}>Đánh giá thấp</MenuItem>
-                </Select>
+                {
+                    isLoading || listReview && listReview.length === 0 ? <></> : (
+
+                        <Select
+                            labelId="lg"
+                            id="lg"
+                            value={typeSort}
+                            size="small"
+                            onChange={handleChangeTypeSort}
+                        >
+                            <MenuItem value={'Newest'}>Mới nhất</MenuItem>
+                            <MenuItem value={'HighestRating'}>Đánh giá cao</MenuItem>
+                            <MenuItem value={'LowestRaTing'}>Đánh giá thấp</MenuItem>
+                        </Select>
+                    )
+                }
             </Stack>
             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {isLoading ? (
                     <Stack direction="row" spacing={1} alignItems="baseline" justifyContent="space-between">
-                        <Stack direction="row" spacing={3}>
+                        <Stack direction="row" spacing={1}>
                             <Stack direction="column" spacing={1} alignItems={'center'}>
                                 <Skeleton animation="wave" variant="circular">
                                     <Avatar sx={{ backgroundColor: '#c3c2c2', height: '45px', width: '45px' }}>
@@ -138,7 +143,7 @@ export default function Reviews() {
                                         ))}
                                     </Stack>
                                 </Skeleton>
-                                <Skeleton animation="wave" variant="text" width={250} height={60} sx={{ fontSize: '1rem' }} >
+                                <Skeleton animation="wave" variant="text" width={150} height={20} sx={{ fontSize: '1rem' }} >
                                 </Skeleton>
                             </Stack>
                         </Stack>

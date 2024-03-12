@@ -3,24 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Box, Stack, Typography, Button } from '@mui/material';
 import PageContainer from '@/app/manager/components/container/PageContainer';
 
-import useManagerStore from '@/hook/manager/useManagerStore'
+import useControllerStore from '@/hook/manager/useControllerStore'
 
 import Proflie from './components/Profile'
-import TinyMCE from './components/TinyMCE'
+import EditPageDetails from './components/EditPageDetails'
 
 const ManagerStore = () => {
 
-  const { haveStore, updateStorebyId, createStore, checkHaveStore } = useManagerStore()
+  const { getFullStore } = useControllerStore()
 
-  let [checkhaveStore, setCheckHaveStore] = useState(false)
-
-  useEffect(() => {
-    setCheckHaveStore(haveStore)
-  }, [haveStore])
+  let [checkhaveStore, setCheckHaveStore] = useState(true)
 
   useEffect(() => {
-    checkHaveStore()
+    getFullStore()
   }, [])
+
 
   return (
     <PageContainer title="Quản lý thông tin cửa hàng" description="this is manager store">
@@ -30,7 +27,7 @@ const ManagerStore = () => {
             <Proflie />
           </Grid>
           <Grid item xs={12} lg={12}>
-            <TinyMCE />
+            <EditPageDetails />
           </Grid>
           <Grid item xs={12} lg={12}>
             <Stack direction={'row'} spacing={5} justifyContent={'center'}>
@@ -38,12 +35,12 @@ const ManagerStore = () => {
                 Hủy
               </Button>
               <Button variant="contained"
-                onClick={updateStorebyId}
+              // onClick={updateStorebyId}
               >
                 Lưu lại
               </Button>
               <Button variant="contained"
-                onClick={createStore}
+              // onClick={createStore}
               >
                 Tạo mới
               </Button>

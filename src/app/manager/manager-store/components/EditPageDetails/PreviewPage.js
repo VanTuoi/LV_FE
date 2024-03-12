@@ -9,7 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import Detail from '@/app/(home)/products/components/ProductDetails/ProductDetails/Detail'
+import Detail from '@/app/(home)/store/components/storeDetails/storeDetails/Detail'
 import { useAppSelector } from '@/lib/hooks';
 import { flatMap } from 'lodash';
 

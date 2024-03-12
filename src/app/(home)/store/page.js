@@ -5,11 +5,12 @@ import { useSearchParams } from 'next/navigation'
 
 // In the Project
 import PageContainer from '@/app/(home)/components/container/PageContainer';
-import ProductDetails from '@/app/(home)/products/components/ProductDetails'
-import MakeTheBooking from '@/app/(home)/products/components/MakeTheBooking'
-import Textheight from '@/app/(home)/products/components/testheight'             // Test
-import CusTomBreadcrumbs from "@/app/(home)/products/components/CusTomBreadcrumbs";
-import Slider from "@/app/(home)/products/components/Slider";
+import StoreDetails from '@/app/(home)/store/components/StoreDetails'
+import MakeTheBooking from '@/app/(home)/store/components/MakeTheBooking'
+import CusTomBreadcrumbs from "@/app/(home)/store/components/CusTomBreadcrumbs";
+import Slider from "@/app/(home)/store/components/Slider";
+
+import Textheight from '@/app/(home)/store/components/testheight'             // Test
 
 
 const Dashboard = ({ params }) => {
@@ -18,21 +19,23 @@ const Dashboard = ({ params }) => {
     const id = searchParams.get('id')           // Lấy Id sản phẩm từ url
 
     return (
-        <PageContainer title="Detail Product" description="this is Dashboard">
+        <PageContainer title='Cửa hàng' description="this is Dashboard">
             <Grid container spacing={3}>
 
                 <Grid item xs={12} lg={12}>
-                    <CusTomBreadcrumbs sx={{
-                        marginBottom: '5px'
-                    }} params={params}></CusTomBreadcrumbs>
-                    <Slider mt={1} />
+                    {/* <CusTomBreadcrumbs
+                        sx={{
+                            marginBottom: '5px'
+                        }} params={params}>
+                    </CusTomBreadcrumbs> */}
+                    {/* <Slider mt={1} /> */}
                 </Grid>
 
                 <Grid item xs={12} lg={8}
                     zIndex={1}
                 // sx={{ marginTop: '-80px' }}
                 >
-                    <ProductDetails id={id}></ProductDetails>
+                    <StoreDetails id={id}></StoreDetails>
                 </Grid>
 
                 <Grid item xs={12} lg={4}
@@ -40,7 +43,7 @@ const Dashboard = ({ params }) => {
                     zIndex={1}
                 // sx={{ marginTop: '-80px' }}
                 >
-                    <MakeTheBooking ></MakeTheBooking>
+                    {/* <MakeTheBooking ></MakeTheBooking> */}
                 </Grid>
 
                 <Grid item xs={12} lg={8}>
