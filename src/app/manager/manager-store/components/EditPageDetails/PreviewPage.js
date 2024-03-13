@@ -1,7 +1,6 @@
-'use client'
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -9,10 +8,10 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import Detail from '@/app/(home)/store/components/storeDetails/storeDetails/Detail'
+import Slider from '@mui/material/Slider';
+import { styled } from '@mui/material/styles';
+import Detail from '@/app/(home)/store/components/storeDetails/storeDetails/Detail';
 import { useAppSelector } from '@/lib/hooks';
-import { flatMap } from 'lodash';
-
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -23,23 +22,47 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function CustomizedDialogs({ handleClickDemo }) {
+const marks = [
+    {
+        value: 480,
+        label: 'Điện thoại di động',
+    },
+    {
+        value: 690,
+        label: 'Máy tính xách tay (Laptop)',
+    },
+    {
+        value: 992,
+        label: 'Màn hình lớn',
+    },
+    {
+        value: 1200,
+        label: 'Màn hình rộng',
+    },
+];
 
+export default function CustomizedDialogs({ handleClickDemo }) {
     const [open, setOpen] = useState(false);
     const [content, setContent] = useState();
 
-    const contentToRedux = useAppSelector((state) => state.reducer.store.content)
+    const contentToRedux = useAppSelector((state) => state.reducer.store.content);
 
     useEffect(() => {
-        setContent(contentToRedux)
+        setContent(contentToRedux);
     }, [contentToRedux]);
 
     const handleClickOpen = () => {
-        handleClickDemo()
+        handleClickDemo();
         setOpen(true);
     };
+
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const [dialogContentWidth, setDialogContentWidth] = useState(690); // Khởi tạo giá trị ban đầu là 960px
+    const handleSliderChange = (event, newValue) => {
+        setDialogContentWidth(newValue); // Cập nhật giá trị độ rộng dựa trên Slider
     };
 
     return (
@@ -48,16 +71,34 @@ export default function CustomizedDialogs({ handleClickDemo }) {
                 Xem trước giao diện
             </Button>
             <BootstrapDialog
-                fullScreen={false}
-                fullWidth={true}
-                // sx={{ width: '1024px' }}
-                maxWidth={'md'}
+                open={open}
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
-                open={open}
+                fullWidth={false}
+                fullScreen
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                     Đây là giao diện trong trang giới thiệu cửa hàng của bạn
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Slider
+                            sx={{ width: '50%' }}
+                            min={480}
+                            max={1200}
+                            defaultValue={690}
+                            aria-label="Custom marks"
+                            onChange={handleSliderChange}
+                            step={10}
+                            valueLabelDisplay="auto"
+                            marks={marks}
+                        />
+                    </Box>
+
                 </DialogTitle>
                 <IconButton
                     aria-label="close"
@@ -71,13 +112,29 @@ export default function CustomizedDialogs({ handleClickDemo }) {
                 >
                     <CloseIcon />
                 </IconButton>
-                <DialogContent dividers={false}>
-                    <Detail content={content}></Detail>
+                <DialogContent
+                    dividers={false}
+
+                >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                width: `${dialogContentWidth}px`, // Sử dụng giá trị độ rộng từ state
+                                overflowX: 'hidden', // Ẩn thanh cuộn ngang khi nội dung vượt quá độ rộng
+                                border: '2px solid rgba(0, 0, 0, 0.2)',
+                                padding: '2px'
+                            }}>
+                            <Detail content={content}></Detail>
+                        </Box>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus variant='text' onClick={handleClose} color='warning'>
-                        Đóng
-                    </Button>
                 </DialogActions>
             </BootstrapDialog>
         </React.Fragment>

@@ -27,7 +27,7 @@ export default function Detail(props) {
     };
 
     return (
-        <Box>
+        <Box sx={{ maxWidth: '100%' }}>
             {content !== null ? (
                 <Box>
                     {expanded ? (

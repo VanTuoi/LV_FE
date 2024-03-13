@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch } from "@/lib/hooks";
 
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+//Third-party
+import React, { useEffect, useState } from 'react';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TextField, Button, Paper } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TextField, Button, Paper } from '@mui/material';
-
-
-import Typography from '@mui/material/Typography';
-
+// In The Project
+import store from '@/lib/features/storeSlice'
+import { useAppDispatch } from "@/lib/hooks";
+import useControllerStore from '@/hook/manager/useControllerStore'
 
 const initialServices = [
     { S_Id: '1', S_IsAvailable: false, S_Name: 'Wifi', S_Describe: '' },
@@ -29,46 +26,46 @@ const initialServices = [
     { S_Id: '13', S_IsAvailable: false, S_Name: 'Phục vụ đồ ăn nhẹ', S_Describe: '' },
 ]
 
-const Tags = (props) => {
+const Services = (props) => {
 
+    const dispatch = useAppDispatch()
+    const { setIsChangeServices } = useControllerStore()
     const { services } = props
+    const [listServices, setListServices] = useState([]);
 
     useEffect(() => {
-        setListServices(services)
+        if (services !== null && services !== undefined && services.length > 0)
+            setListServices(services)
+        else setListServices(initialServices)
     }, [services])
 
 
-    const [listServices, setListServices] = useState([]);
-
     const handleToggleAvailability = (index) => {
         const newServices = [...listServices];
-        newServices[index].S_IsAvailable = !newServices[index].S_IsAvailable;
+        const updatedService = { ...newServices[index] };
+        updatedService.S_IsAvailable = !updatedService.S_IsAvailable;
+        newServices[index] = updatedService;
         setListServices(newServices);
+        setIsChangeServices(true)
+        dispatch(store.actions.onChangeServices(newServices))
     };
 
     const handleDescriptionChange = (index, newDescription) => {
         const newServices = [...listServices];
-        newServices[index].S_Describe = newDescription;
+        const updatedService = { ...newServices[index] };
+        updatedService.S_Describe = newDescription;
+        newServices[index] = updatedService;
         setListServices(newServices);
-    };
-
-    const saveChanges = () => {
-        // Hàm để lưu các thay đổi, thực hiện fetch POST/PUT request tới API
-        console.log('Saving changes', listServices);
-        // Sau đây là cách bạn có thể fetch đến một endpoint API:
-        // fetch('/api/listServices', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(listServices),
-        // })
-        // .then(response => response.json())
-        // .then(data => console.log(data))
-        // .catch(error => console.error('Error:', error));
+        setIsChangeServices(true);
+        dispatch(store.actions.onChangeServices(newServices));
     };
 
 
     return (
-        <Accordion defaultExpanded>
+        <Accordion
+            sx={{
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.15)',
+            }}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
@@ -115,14 +112,10 @@ const Tags = (props) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Button variant="contained" onClick={saveChanges} sx={{ mt: 2 }}>
-                    Lưu Thay Đổi
-                </Button>
-
-
             </AccordionDetails>
         </Accordion>
     );
 };
 
-export default Tags;
+export default Services;
+

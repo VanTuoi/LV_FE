@@ -1,22 +1,23 @@
 'use client'
-import React, { useRef, useState, useEffect } from 'react';
+// Third-party
 import { Editor } from '@tinymce/tinymce-react';
-import { Grid, Box, Button, Stack } from '@mui/material';
+import React, { useRef, useState, useEffect } from 'react';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import Typography from '@mui/material/Typography';
-
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+// In the project
 import store from '@/lib/features/storeSlice'
-
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import PreviewPage from './EditPageDetails/PreviewPage'
+import useControllerStore from '@/hook/manager/useControllerStore'
 
 export default function TinyMCE() {
 
   const dispatch = useAppDispatch()
+  const { setIsChangeDetail } = useControllerStore()
 
   let contentToRedux = useAppSelector((state) => state.reducer.store.content)
 
@@ -24,7 +25,6 @@ export default function TinyMCE() {
 
   useEffect(() => {
     setContent(contentToRedux)
-    console.log('contentToRedux', contentToRedux);
   }, [contentToRedux])
 
   const editorRef = useRef(null);
@@ -40,12 +40,17 @@ export default function TinyMCE() {
   const saveToRedux = () => {
     if (editorRef.current) {
       const editorContent = editorRef.current.getContent();
+      setIsChangeDetail(true)
       dispatch(store.actions.onChangeContent(editorContent));
     }
   }
 
   return (
-    <Accordion defaultExpanded>
+    //defaultExpanded
+    <Accordion
+      sx={{
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.15)',
+      }}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1-content"

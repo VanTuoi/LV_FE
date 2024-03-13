@@ -20,22 +20,6 @@ import DashboardCard from '@/app/(home)/components/shared/DashboardCard';
 
 import Store from '@/hook/store/useStore';
 
-// let list2 = [
-//     { S_IsAvailable: true, S_Name: 'Wifi', S_Describe: '' },
-//     { S_IsAvailable: true, S_Name: 'Điều hòa', S_Describe: '' },
-//     { S_IsAvailable: false, S_Name: 'Phòng riêng', S_Describe: '' },
-//     { S_IsAvailable: true, S_Name: 'Bàn ngoài trời', S_Describe: '' },
-//     { S_IsAvailable: true, S_Name: 'Máy chiếu', S_Describe: '' },
-//     { S_IsAvailable: false, S_Name: 'Bóng đá K+', S_Describe: '' },
-//     { S_IsAvailable: true, S_Name: 'Ghế trẻ em', S_Describe: '' },
-//     { S_IsAvailable: false, S_Name: 'Chỗ chơi trẻ em', S_Describe: '' },
-//     { S_IsAvailable: true, S_Name: 'Chỗ hút thuốc', S_Describe: '' },
-//     { S_IsAvailable: true, S_Name: 'Hóa đơn VAT', S_Describe: '' },
-//     { S_IsAvailable: false, S_Name: 'Visa/Master card', S_Describe: '' },
-//     { S_IsAvailable: false, S_Name: 'Chỗ để ô tô', S_Describe: '' },
-//     { S_IsAvailable: true, S_Name: 'Phục vụ đồ ăn nhẹ', S_Describe: '' },
-// ]
-
 const ProductDetail = (props) => {
 
     const { id } = props
@@ -48,7 +32,7 @@ const ProductDetail = (props) => {
     const [dataStore, setDataStore] = useState(null)
     const [dataMenus, setDataMenus] = useState([])
     const [dataTags, setDataTags] = useState(['Tag 1', 'Tag 2', 'Tag 3'])            // ['Tag 1', 'Tag 2', 'Tag 3']
-    const [dataServices, setDataServices] = useState([])            // ['Tag 1', 'Tag 2', 'Tag 3']
+    const [dataServices, setDataServices] = useState([])
     const [dataDetails, setDataDetails] = useState(null)
 
     useEffect(() => {

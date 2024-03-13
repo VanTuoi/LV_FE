@@ -5,6 +5,7 @@ import axios from 'axios';
 const store = createSlice({
     name: 'store',
     initialState: {
+        id: '',
         name: '',
         content: '',
         location: '',
@@ -13,8 +14,10 @@ const store = createSlice({
         tags: [],
     },
     reducers: {
+        onChangeId: (state, action) => {
+            state.id = action.payload
+        },
         onChangeName: (state, action) => {
-            // console.log('run');
             state.name = action.payload
         },
         onChangeContent: (state, action) => {
