@@ -15,9 +15,13 @@ import {
 
 import { IconListCheck, IconHeartPin, IconMapCheck, IconUser, IconUserCog, IconReport, IconUserExclamation } from "@tabler/icons-react";
 import theme from "@/utils/theme";
-
-
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import userSlice from '@/lib/features/userSlice'
 const Profile = () => {
+
+  const dispatch = useAppDispatch();
+  let infoToRedux = useAppSelector((state) => state.reducer.user.info)
+
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -25,6 +29,10 @@ const Profile = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
+
+  const handleClickLogout = () => {
+    dispatch(userSlice.actions.logout());
+  }
 
   return (
     <Box>
@@ -84,50 +92,74 @@ const Profile = () => {
         }}
       >
         <Box padding={2}>
-          <Typography variant="body1" fontWeight={400} >
-            Xin chào,
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` Trần Văn A`}
+          {infoToRedux && infoToRedux.U_Id !== null ? (
+            <Typography variant="body1" fontWeight={400} >
+              Xin chào,
+              <Typography display="inline" variant="body1" fontWeight={500}>
+                {infoToRedux && infoToRedux.U_Name}
+              </Typography>
             </Typography>
-          </Typography>
+          ) : (
+            <Typography variant="body1" fontWeight={400} >
+              Bạn chưa đăng nhập
+            </Typography>
+          )}
         </Box>
-        <MenuItem>
-          <ListItemIcon>
-            <IconUserCog width={20} />
-          </ListItemIcon>
-          <ListItemText>Tài khoản của tôi</ListItemText>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconHeartPin width={20} />
-          </ListItemIcon>
-          <ListItemText>Danh sách yêu thích</ListItemText>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconMapCheck width={20} />
-          </ListItemIcon>
-          <ListItemText>Lịch sử Check In</ListItemText>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconReport width={20} />
-          </ListItemIcon>
-          <ListItemText>Lịch sử báo cáo</ListItemText>
-        </MenuItem>
-        <Box mt={1} py={1} px={2}>
-          <Button
-            href="/authentication/login"
-            variant="outlined"
-            color="primary"
-            component={Link}
-            fullWidth
-          >
-            Đăng xuất
-          </Button>
-        </Box>
-      </Menu>
-    </Box>
+        {infoToRedux && infoToRedux.U_Id !== null ? (
+          <>
+            <MenuItem>
+              <ListItemIcon>
+                <IconUserCog width={20} />
+              </ListItemIcon>
+              <ListItemText>Tài khoản của tôi</ListItemText>
+            </MenuItem>
+            <MenuItem>
+              <ListItemIcon>
+                <IconHeartPin width={20} />
+              </ListItemIcon>
+              <ListItemText>Danh sách yêu thích</ListItemText>
+            </MenuItem>
+            <MenuItem>
+              <ListItemIcon>
+                <IconMapCheck width={20} />
+              </ListItemIcon>
+              <ListItemText>Lịch sử Check In</ListItemText>
+            </MenuItem>
+            <MenuItem>
+              <ListItemIcon>
+                <IconReport width={20} />
+              </ListItemIcon>
+              <ListItemText>Lịch sử báo cáo</ListItemText>
+            </MenuItem>
+            <Box Box mt={1} py={1} px={2}>
+              <Button
+                onClick={() => handleClickLogout()}
+                href="/authentication/login"
+                variant="outlined"
+                color="primary"
+                component={Link}
+                fullWidth
+              >
+                Đăng xuất
+              </Button>
+            </Box>
+          </>
+        ) : (
+          <Box Box mt={1} py={1} px={1}>
+            <Button
+              href="/authentication/login"
+              variant="outlined"
+              color="primary"
+              component={Link}
+              fullWidth
+            >
+              Đăng nhập ngay
+            </Button>
+          </Box>
+        )
+        }
+      </Menu >
+    </Box >
   );
 };
 

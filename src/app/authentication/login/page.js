@@ -67,7 +67,7 @@ const Login = () => {
                   >
                     <Typography
                       color="textSecondary"
-                      variant="h6"
+                      variant="body1"
                       fontWeight="500"
                     >
                       Bạn là người dùng mới ?

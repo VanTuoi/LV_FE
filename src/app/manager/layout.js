@@ -1,15 +1,16 @@
 "use client";
 import { styled, Container, Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'
 import Header from "@/app/manager/layout/header/Header";
 import Sidebar from "@/app/manager/layout/sidebar/Sidebar";
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
   minHeight: "100vh",
   width: "100%",
 }));
-
 const PageWrapper = styled("div")(() => ({
   display: "flex",
   flexGrow: 1,
@@ -20,10 +21,29 @@ const PageWrapper = styled("div")(() => ({
 }));
 
 export default function RootLayout({ children }) {
+
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  return (
+  const router = useRouter()
+
+  let infoToRedux = useAppSelector((state) => state.reducer.manager.info)
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!infoToRedux || infoToRedux.M_Id === null || infoToRedux.M_Id === '') {
+      router.push('/')
+    }
+    else {
+      setIsLoading(false)
+    }
+  }, [])
+
+
+  return isLoading ? (
+    'Loading'
+  ) : (
     <MainWrapper className="mainwrapper">
       {/* ------------------------------------------- */}
       {/* Sidebar */}
@@ -59,6 +79,6 @@ export default function RootLayout({ children }) {
           {/* ------------------------------------------- */}
         </Container>
       </PageWrapper>
-    </MainWrapper>
+    </MainWrapper >
   );
 }

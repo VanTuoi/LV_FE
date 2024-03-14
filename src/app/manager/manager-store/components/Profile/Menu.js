@@ -17,7 +17,7 @@ import useControllerStore from '@/hook/manager/useControllerStore'
 const TableMenu = (props) => {
 
     const dispatch = useAppDispatch()
-    const { setIsChangeMenus } = useControllerStore()
+    const { setMenusToDB } = useControllerStore()
     const { menus } = props
     const [updatedList, setUpdatedList] = React.useState([]);
     const [selectedRow, setSelectedRow] = React.useState(null);
@@ -36,8 +36,8 @@ const TableMenu = (props) => {
         newList[index1] = tempItem2;
         newList[index2] = tempItem1;
         setUpdatedList(newList);
-        setIsChangeMenus(true)
-        dispatch(store.actions.onChangeMenus(newList))
+        setMenusToDB(newList)
+        // dispatch(store.actions.onChangeMenus(newList))
     };
 
     const handleMoveUp = (index) => {
@@ -56,8 +56,8 @@ const TableMenu = (props) => {
         const newId = 'N_' + (updatedList.length + 1);
         const newRow = { M_Id: newId, M_Name: '', M_Price: '' };
         setUpdatedList([...updatedList, newRow]);
-        setIsChangeMenus(true)
-        dispatch(store.actions.onChangeMenus([...updatedList, newRow]))
+        setMenusToDB([...updatedList, newRow])
+        // dispatch(store.actions.onChangeMenus([...updatedList, newRow]))
     };
 
     const handleChange = (id, field, value) => {
@@ -68,8 +68,8 @@ const TableMenu = (props) => {
             return item;
         });
         setUpdatedList(newList);
-        setIsChangeMenus(true)
-        dispatch(store.actions.onChangeMenus(newList))
+        setMenusToDB(newList)
+        // dispatch(store.actions.onChangeMenus(newList))
     };
 
     const handleDeleteRow = (index) => {
@@ -83,8 +83,8 @@ const TableMenu = (props) => {
         });
         setUpdatedList(newList);
         setSelectedRow(null);
-        setIsChangeMenus(true)
-        dispatch(store.actions.onChangeMenus(newList))
+        setMenusToDB(newList)
+        // dispatch(store.actions.onChangeMenus(newList))
     };
 
     const handleRowClick = (index) => {

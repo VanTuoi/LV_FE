@@ -5,8 +5,6 @@ import PageContainer from '@/app/(home)/components/container/PageContainer';
 import Search from '@/app/(home)/components/dashboard/Search';
 import Locate from '@/app/(home)/components/dashboard/Locate';
 
-import Photo from '@/app/(home)/utilities/typography/page'
-
 const Dashboard = () => {
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">

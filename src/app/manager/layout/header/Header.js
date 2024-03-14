@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // components
 import Profile from './Profile';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
 
 const Header = ({ toggleMobileSidebar }) => {
@@ -11,6 +12,7 @@ const Header = ({ toggleMobileSidebar }) => {
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   // const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
+  let infoToRedux = useAppSelector((state) => state.reducer.manager.info)
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
     boxShadow: 'none',
@@ -58,7 +60,7 @@ const Header = ({ toggleMobileSidebar }) => {
         </IconButton>
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
-          <Typography variant="h6">Demo</Typography>
+          <Typography variant="h6">{infoToRedux && infoToRedux.M_Name}</Typography>
           <Profile />
         </Stack>
       </ToolbarStyled>

@@ -12,7 +12,7 @@ import {
     Typography,
 } from '@mui/material';
 
-// Redux
+// Redux 
 import bookingSlice from '@/lib/features/bookingSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 // In the project

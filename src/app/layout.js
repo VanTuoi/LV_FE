@@ -1,12 +1,14 @@
 "use client";
+import { useState, useEffect } from "react";
 import { baselightTheme } from "@/utils/theme/DefaultColors";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import StoreProvider from "./StoreProvider";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body>

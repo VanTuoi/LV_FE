@@ -11,19 +11,19 @@ import { useAppDispatch } from "@/lib/hooks";
 import useControllerStore from '@/hook/manager/useControllerStore'
 
 const initialServices = [
-    { S_Id: '1', S_IsAvailable: false, S_Name: 'Wifi', S_Describe: '' },
-    { S_Id: '2', S_IsAvailable: false, S_Name: 'Điều hòa', S_Describe: '' },
-    { S_Id: '3', S_IsAvailable: false, S_Name: 'Phòng riêng', S_Describe: '' },
-    { S_Id: '4', S_IsAvailable: false, S_Name: 'Bàn ngoài trời', S_Describe: '' },
-    { S_Id: '5', S_IsAvailable: false, S_Name: 'Máy chiếu', S_Describe: '' },
-    { S_Id: '6', S_IsAvailable: false, S_Name: 'Bóng đá K+', S_Describe: '' },
-    { S_Id: '7', S_IsAvailable: false, S_Name: 'Ghế trẻ em', S_Describe: '' },
-    { S_Id: '8', S_IsAvailable: false, S_Name: 'Chỗ chơi trẻ em', S_Describe: '' },
-    { S_Id: '9', S_IsAvailable: false, S_Name: 'Chỗ hút thuốc', S_Describe: '' },
-    { S_Id: '10', S_IsAvailable: false, S_Name: 'Hóa đơn VAT', S_Describe: '' },
-    { S_Id: '11', S_IsAvailable: false, S_Name: 'Visa/Master card', S_Describe: '' },
-    { S_Id: '12', S_IsAvailable: false, S_Name: 'Chỗ để ô tô', S_Describe: '' },
-    { S_Id: '13', S_IsAvailable: false, S_Name: 'Phục vụ đồ ăn nhẹ', S_Describe: '' },
+    { S_Id: '1', S_IsAvailable: false, S_Name: 'Wifi', S_Describe: null },
+    { S_Id: '2', S_IsAvailable: false, S_Name: 'Điều hòa', S_Describe: null },
+    { S_Id: '3', S_IsAvailable: false, S_Name: 'Phòng riêng', S_Describe: null },
+    { S_Id: '4', S_IsAvailable: false, S_Name: 'Bàn ngoài trời', S_Describe: null },
+    { S_Id: '5', S_IsAvailable: false, S_Name: 'Máy chiếu', S_Describe: null },
+    { S_Id: '6', S_IsAvailable: false, S_Name: 'Bóng đá K+', S_Describe: null },
+    { S_Id: '7', S_IsAvailable: false, S_Name: 'Ghế trẻ em', S_Describe: null },
+    { S_Id: '8', S_IsAvailable: false, S_Name: 'Chỗ chơi trẻ em', S_Describe: null },
+    { S_Id: '9', S_IsAvailable: false, S_Name: 'Chỗ hút thuốc', S_Describe: null },
+    { S_Id: '10', S_IsAvailable: false, S_Name: 'Hóa đơn VAT', S_Describe: null },
+    { S_Id: '11', S_IsAvailable: false, S_Name: 'Visa/Master card', S_Describe: null },
+    { S_Id: '12', S_IsAvailable: false, S_Name: 'Chỗ để ô tô', S_Describe: null },
+    { S_Id: '13', S_IsAvailable: false, S_Name: 'Phục vụ đồ ăn nhẹ', S_Describe: null },
 ]
 
 const Services = (props) => {

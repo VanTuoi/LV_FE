@@ -2,6 +2,10 @@
 // Third-party
 import React, { useState } from 'react';
 import { Box, Typography, Button, Checkbox, Backdrop, FormGroup, FormControlLabel } from '@mui/material';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import Link from 'next/link';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -17,19 +21,19 @@ import CustomTypography from "@/app/authentication/components/forms/CustomTypogr
 
 const AuthRegister = ({ title, subtitle, subtext }) => {
 
-    const { register, checkName, checkEmail, checkPhone, checkPassWord,
+    const { registerUser, registerManager, checkName, checkEmail, checkPhone, checkPassWord,
         errName, errEmail, errPhone, errPassword, isErrorRegister
     } = useRegister()
 
-    const [value, setValue] = useState('1');
+    const [open, setOpen] = useState(false);                // Dùng cho  Backdrop điều khoản
+    const [value, setValue] = useState('1');                // Dùng cho  Backdrop điều khoản
+    const [isUser, setIsUser] = useState('user');           // Kiểm tra tài khoản đky là admin hay user
+    const [isChecked, setIsChecked] = useState(false);      // Kiểm tra check chấp nhận điều khoản
 
-    const [isChecked, setIsChecked] = useState(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-    const [open, setOpen] = useState(false);
 
     const handleClickRules = () => {
         setOpen(true);
@@ -38,6 +42,16 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleChangeUser = (event) => {
+        setIsUser(event.target.value);
+    };
+
+    const handleRegister = () => {
+        console.log('errPhone', errPhone);
+        if (isUser === 'user') registerUser()
+        registerManager()
+    }
 
     return (
         <>
@@ -48,6 +62,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
             )}
 
             {subtext}
+            {isErrorRegister ? (<CustomTypography>{isErrorRegister}</CustomTypography>) : null}
             <Backdrop // Điều khoản đăng ký
                 sx={{ zIndex: (theme) => theme.zIndex.drawer + 5 }}
                 open={open}
@@ -181,6 +196,18 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
                         <CustomTextField onChange={(event) => checkPassWord(event.target.value)} id="password" variant="outlined" fullWidth />
                         {errPassword ? (<CustomTypography>{errPassword}</CustomTypography>) : ''}
                     </Box>
+                    <FormControl>
+                        <FormLabel id="demo-controlled-radio-buttons-group">Loại tài khoản</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="demo-controlled-radio-buttons-group"
+                            name="controlled-radio-buttons-group"
+                            value={isUser}
+                            onChange={(e) => handleChangeUser(e)}
+                        >
+                            <FormControlLabel value='user' control={<Radio size="small" />} label="Khách hàng" />
+                            <FormControlLabel value='manager' control={<Radio size="small" />} label="Người quản lý" />
+                        </RadioGroup>
+                    </FormControl>
                     <Stack spacing={1} direction="row" alignItems="center">
                         <FormGroup
                         >
@@ -206,7 +233,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
                 </Stack>
                 <Button
                     disabled={!(isChecked)}
-                    onClick={() => register()}
+                    onClick={() => handleRegister()}
                     color="primary"
                     variant="contained"
                     size="large" fullWidth>

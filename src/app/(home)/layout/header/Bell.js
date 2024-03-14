@@ -20,10 +20,9 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
 import useSearch from '@/hook/user/useSearch'
-import { useAppSelector } from '@/lib/hooks';
+import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 
 import { IconBell } from "@tabler/icons-react";
-
 
 const NotificationsBooking = () => {
 
@@ -127,6 +126,10 @@ const NotificationsNew = () => {
 }
 
 const ButtonSelectLocation = () => {
+
+
+  let infoToRedux = useAppSelector((state) => state.reducer.user.info)
+
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -141,7 +144,7 @@ const ButtonSelectLocation = () => {
     setValue(newValue);
   };
 
-  return (
+  return infoToRedux && infoToRedux.U_Id !== null ? (
     <Box>
       <IconButton
         size="small"
@@ -195,7 +198,9 @@ const ButtonSelectLocation = () => {
         </TabContext>
       </Menu>
     </Box>
-  );
+  ) : (
+    null
+  )
 };
 
 export default ButtonSelectLocation;

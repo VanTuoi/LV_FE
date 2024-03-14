@@ -26,7 +26,7 @@ import useControllerStore from '@/hook/manager/useControllerStore'
 const Proflie = () => {
 
     const dispatch = useAppDispatch()
-    const { setIsChangeName, setIsChangeLocation } = useControllerStore()
+    const { nameToDB, detailToDB, locationToDB, menusToDB, servicesToDB, } = useControllerStore()
 
     const [name, setName] = useState();
     const [location, setLocation] = useState();
@@ -35,39 +35,29 @@ const Proflie = () => {
     const [services, setServices] = useState();
     const [tags, setTags] = useState();
 
-    let idToRedux = useAppSelector((state) => state.reducer.store.id)
-    let nameToRedux = useAppSelector((state) => state.reducer.store.name)
-    let locationToRedux = useAppSelector((state) => state.reducer.store.location)
-    let contentToRedux = useAppSelector((state) => state.reducer.store.content)
-    let menusToRedux = useAppSelector((state) => state.reducer.store.menus)
-    let servicesToRedux = useAppSelector((state) => state.reducer.store.services)
-    let tagsToRedux = useAppSelector((state) => state.reducer.store.tags)
+    useEffect(() => {
+        setName(nameToDB);
+    }, [nameToDB]);
 
     useEffect(() => {
-        setName(nameToRedux);
-    }, [nameToRedux]);
+        setLocation(detailToDB);
+    }, [detailToDB]);
 
     useEffect(() => {
-        setLocation(locationToRedux);
-    }, [locationToRedux]);
+        setContent(locationToDB);
+    }, [locationToDB]);
 
     useEffect(() => {
-        setContent(contentToRedux);
-    }, [contentToRedux]);
+        setMenus(menusToDB);
+    }, [menusToDB]);
 
     useEffect(() => {
-        setMenus(menusToRedux);
-    }, [menusToRedux]);
+        setServices(servicesToDB);
+    }, [servicesToDB]);
 
-    useEffect(() => {
-        setServices(servicesToRedux);
-    }, [servicesToRedux]);
-
-    useEffect(() => {
-        setTags(tagsToRedux);
-    }, [tagsToRedux]);
-
-
+    // useEffect(() => {
+    //     setTags();
+    // }, []);
 
     const handleCopyUrl = () => {
         navigator.clipboard.writeText(`http://localhost:3000/store?id=${idToRedux ? idToRedux : ''}`)

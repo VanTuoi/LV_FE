@@ -21,14 +21,13 @@ const useRegister = () => {
     const [errPhone, setErrorPhone] = useState('')
     const [errPassword, setErrorPassword] = useState('')
 
-    const [isErrorRegister, setIErrorRegister] = useState(true)
+    const [isErrorRegister, setIErrorRegister] = useState('')
 
     const isValidName = (name) => {
         // Chấp nhận chữ cái (cả hoa và thường), kí tự có dấu, khoảng trắng, từ 1 đến 50 kí tự
         const regex = /^[A-Za-zÀ-Ỹà-ỹ\s]{1,50}$/;
         return regex.test(name);
     };
-
     const isValidEmail = (email) => {
         // Một regex cơ bản cho email hợp lệ
         const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -41,14 +40,12 @@ const useRegister = () => {
         // const regex = /^.*/;
         return regex.test(phone);
     };
-
     const isValidPassword = (password) => {
         // Mật khẩu từ 8-20 kí tự, ít nhất 1 kí tự viết hoa hoặc viết thường, 1 kí tự đặc biệt, và 1 chữ số
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`[\]{}|\\:;<>?,./-]).{8,20}$/;
         // const regex = /^.*/;
         return regex.test(password);
     };
-
     const checkName = (name) => {
         if (isValidName(name) === false || !name) {
             setErrorName('Tên phải từ 1-50 kí tự không bao gồm số và kí tự đặc biệt')
@@ -59,7 +56,6 @@ const useRegister = () => {
             return true
         }
     }
-
     const checkEmail = (email) => {
         if (isValidEmail(email) === false || !email) {
             setErrorEmail('Email không hợp lệ')
@@ -80,7 +76,6 @@ const useRegister = () => {
             return true
         }
     }
-
     const checkPassWord = (password) => {
         if (!password || isValidPassword(password) === false) {
             setErrorPassword('Mật khẩu phải từ 8 kí tự bao gồm 1 chữ cái, chữ số và kí tự đặc biệt')
@@ -91,39 +86,68 @@ const useRegister = () => {
             return true
         }
     }
-    const register = async () => {
-        if (checkName(name) && checkEmail(email) && checkPhone(phone) && checkPassWord(password)) {
-            setIErrorRegister(false)
 
-            const response = await axios.post('/api/v1/auth/register', {
-                U_Name: name,
-                U_Email: email,
-                U_PhoneNumber: phone,
-                U_Password: password,
-            });
-
-            if (response) {
-                if (response.errorCode == '0') {    // thành công
-                    console.log('Data', response.data);
-                    router.push('http://localhost:3000/authentication/login')
+    const registerUser = async () => {
+        try {
+            if (checkName(name) && checkEmail(email) && checkPhone(phone) && checkPassWord(password)) {
+                setIErrorRegister('')
+                const response = await axios.post('/api/v1/auth/register-u', {
+                    U_Name: name,
+                    U_Email: email,
+                    U_PhoneNumber: phone,
+                    U_Password: password,
+                });
+                console.log('response', response);
+                if (response) {
+                    if (response.status === 0) {    // thành công
+                        console.log('Data', response.data);
+                        router.push('http://localhost:3000/authentication/login')
+                    }
+                    if (response.status === 2) {
+                        setErrorPhone('Số điện thoại đăng kí đã tồn tại')
+                    }
+                    if (response.status === 1) {
+                        setIErrorRegister('Có lỗi trong quá trình đăng ký vui lòng thử lại sau ít phút nữa')
+                    }
                 }
-                if (response.errorCode == '1') {
-                    console.log('Thất bại');
-                }
-                if (response.errorCode == '2') {
-                    setErrorPhone('Số điện thoại đăng kí đã tồn tại')
-                }
-            } else {
-                console.log('Lỗi lấy dữ liệu', response);
             }
-
-        } else {
-            setIErrorRegister(true)
+        } catch (error) {
+            console.error(error);
+            setIErrorRegister('Có lỗi trong quá trình đăng ký vui lòng thử lại sau ít phút nữa')
+        }
+    }
+    const registerManager = async () => {
+        try {
+            if (checkName(name) && checkEmail(email) && checkPhone(phone) && checkPassWord(password)) {
+                setIErrorRegister('')
+                const response = await axios.post('/api/v1/auth/register-m', {
+                    M_Name: name,
+                    M_Email: email,
+                    M_PhoneNumber: phone,
+                    M_Password: password,
+                });
+                console.log('response', response);
+                if (response) {
+                    if (response.status === 0) {    // thành công
+                        console.log('Data', response.data);
+                        router.push('http://localhost:3000/authentication/login')
+                    }
+                    if (response.status === 2) {
+                        setErrorPhone('Số điện thoại đăng kí đã tồn tại')
+                    }
+                    if (response.status === 1) {
+                        setIErrorRegister('Có lỗi trong quá trình đăng ký vui lòng thử lại sau ít phút nữa')
+                    }
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            setIErrorRegister('Có lỗi trong quá trình đăng ký vui lòng thử lại sau ít phút nữa')
         }
     }
 
     return {
-        register, checkName, checkEmail, checkPhone, checkPassWord,
+        registerUser, registerManager, checkName, checkEmail, checkPhone, checkPassWord,
         errName, errEmail, errPhone, errPassword, isErrorRegister
     }
 }
