@@ -23,12 +23,14 @@ const Dashboard = ({ params }) => {
             <Grid container spacing={3}>
 
                 <Grid item xs={12} lg={12}>
-                    {/* <CusTomBreadcrumbs
+                    <CusTomBreadcrumbs
                         sx={{
                             marginBottom: '5px'
-                        }} params={params}>
-                    </CusTomBreadcrumbs> */}
-                    {/* <Slider mt={1} /> */}
+                        }}
+                        params={`${params} ${id}`}
+                    >
+                    </CusTomBreadcrumbs>
+                    <Slider mt={1} />
                 </Grid>
 
                 <Grid item xs={12} lg={8}
@@ -43,7 +45,7 @@ const Dashboard = ({ params }) => {
                     zIndex={1}
                 // sx={{ marginTop: '-80px' }}
                 >
-                    {/* <MakeTheBooking ></MakeTheBooking> */}
+                    <MakeTheBooking id={id}></MakeTheBooking>
                 </Grid>
 
                 <Grid item xs={12} lg={8}>

@@ -20,7 +20,7 @@ const Menuitems = [
 
   {
     id: uniqueId(),
-    title: "Dashboard",
+    title: "Trang tổng quan",
     icon: IconLayoutDashboard,
     href: "/manager",
   },
@@ -52,23 +52,17 @@ const Menuitems = [
   },
   {
     navlabel: true,
-    subheader: "Auth",
+    subheader: "Handle...",
   },
-  {
-    id: uniqueId(),
-    title: "Login",
-    icon: IconLogin,
-    href: "/authentication/login",
-  },
-  {
-    id: uniqueId(),
-    title: "Register",
-    icon: IconUserPlus,
-    href: "/authentication/register",
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: "Login",
+  //   icon: IconLogin,
+  //   href: "/authentication/login",
+  // },
   {
     navlabel: true,
-    subheader: "Extra",
+    subheader: "Handle...",
   },
   {
     id: uniqueId(),

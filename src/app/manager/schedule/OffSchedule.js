@@ -88,6 +88,7 @@ export default function DateCalendarServerRequest() {
 
     React.useEffect(() => {
         listDayViews = frequency
+        setIsLoading(false)
     }, [frequency]);
 
     const handleMonthChange = (date) => {
@@ -101,7 +102,7 @@ export default function DateCalendarServerRequest() {
         }).catch((error) => {
             console.error('Error:', error);
         });
-        setIsLoading(true);
+        // setIsLoading(true);
     };
 
     return (

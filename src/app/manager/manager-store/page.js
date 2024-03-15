@@ -1,37 +1,56 @@
 'use client'
 //Third-party
 import React, { useEffect, useState } from 'react';
-import { Grid, Box, Stack, Typography, Button } from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { Grid, Stack, Button } from '@mui/material';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 // In The Project
-import useControllerStore from '@/hook/manager/useControllerStore'
 import PageContainer from '@/app/manager/components/container/PageContainer';
-import Proflie from './components/Profile'
-import EditPageDetails from './components/EditPageDetails'
+import Profile from '@/app/manager/manager-store/components/Profile'
+import Details from '@/app/manager/manager-store/components/EditPageDetails'
+import TableMenu from '@/app/manager/manager-store/components/Menu'
+import TableServices from '@/app/manager/manager-store/components/Services'
+import useControllerStore from '@/hook/manager/useControllerStore'
 
 const ManagerStore = () => {
 
-    const { haveStore, checkHaveStore, getFullStore, createStore, updateStore } = useControllerStore()
+    const { idToDB, nameToDB, detailToDB, locationToDB, menusToDB, servicesToDB, haveStore,
+        setNameToDB, setDetailToDB, setLocationToDB, setMenusToDB, setServicesToDB,
+        getFullStore, checkHaveStore, createStore, updateStore
+    } = useControllerStore()
 
-    let [have, setHave] = useState(false)
-
+    let [have, setHave] = useState(false)           // Check có cửa hàng không
     let [isShow, setIsShow] = useState(false)
-
-    useEffect(() => {
-        setHave(haveStore)
-        setIsShow(haveStore)
-        if (haveStore === true) getFullStore()
-    }, [haveStore])
+    const [open, setOpen] = useState(false);        // Mở Dialog thông báo
 
     useEffect(() => {
         setHave(checkHaveStore())
     }, [])
 
+    useEffect(() => {
+        setHave(haveStore)
+        setIsShow(haveStore)
+        if (haveStore === true)
+            getFullStore()
+        else {
+            setOpen(true)
+        }
+    }, [haveStore])
+
     const handleClickNewStore = () => {
         setIsShow(true)
         setHave(false)
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleUpdate = async () => {
         let status = await updateStore()
@@ -48,10 +67,16 @@ const ManagerStore = () => {
             {isShow === true ? (
                 <Grid container spacing={1}>
                     <Grid item xs={12} lg={12}>
-                        <Proflie />
+                        <Profile id={idToDB} name={nameToDB} setNameToDB={setNameToDB} location={locationToDB} setLocationToDB={setLocationToDB} />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                        <TableMenu menus={menusToDB} setMenusToDB={setMenusToDB} />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                        <TableServices services={servicesToDB} setServicesToDB={setServicesToDB} />
                     </Grid>
                     <Grid item xs={12} lg={12}>
-                        <EditPageDetails />
+                        <Details details={detailToDB} setDetailToDB={setDetailToDB} />
                     </Grid>
                     <Grid item xs={12} lg={12}>
                         <Stack direction={'row'} spacing={2} justifyContent={'center'}>
@@ -74,16 +99,32 @@ const ManagerStore = () => {
                 </Grid>
             ) : (
                 <Stack direction={'row'} spacing={1} alignItems={'center'}>
-                    <Typography variant="h6" fontWeight={400} >
-                        Rất tiếc, bạn chưa quản lý cửa hàng
-                    </Typography>
-                    <Button variant='outlined' onClick={() => handleClickNewStore()}>
-                        Mở một cửa hàng ngay bây giờ
-                    </Button>
+                    <Dialog
+                        open={open}
+                        // onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {"Tạo một cửa hàng ?"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Bạn cần phải tạo một cửa hàng để có thể sử dụng các chức năng của hệ thống, mở một cửa hàng ngay nhé
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color='error'>
+                                Để khi khác
+                            </Button>
+                            <Button variant='contained' onClick={handleClickNewStore}>Tất nhiên rồi</Button>
+                        </DialogActions>
+                    </Dialog>
+                    {!open && <Button variant='text' onClick={() => handleClickNewStore()}> Tạo mới ngay</Button>}
                 </Stack>
             )
             }
-        </PageContainer>
+        </PageContainer >
     );
 }
 export default ManagerStore

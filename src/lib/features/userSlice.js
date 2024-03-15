@@ -16,7 +16,9 @@ const user = createSlice({
             state.info = action.payload;
         },
         logout: (state, action) => {
-            state.info = null
+            state.info.U_Id = null
+            state.info.U_Name = null
+            state.info.U_PrestigeScore = 0
         },
     },
     extraReducers: (builder) => {

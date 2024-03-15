@@ -18,13 +18,13 @@ import Reviews from '@/app/(home)/store/components/storeDetails/storeDetails/Rev
 import SupportServices from '@/app/(home)/store/components/storeDetails/storeDetails/SupportServices'
 import DashboardCard from '@/app/(home)/components/shared/DashboardCard';
 
-import Store from '@/hook/store/useStore';
+import useStore from '@/hook/store/useStore';
 
 const ProductDetail = (props) => {
 
     const { id } = props
 
-    const { store, menus, detail, services, getStorebyId, getDetailbyId, getMenusbyId, getServicesbyId } = Store()
+    const { store, menus, detail, services, getStore, getDetail, getMenus, getServices } = useStore()
 
     const [value, setValue] = useState('1');
 
@@ -36,10 +36,10 @@ const ProductDetail = (props) => {
     const [dataDetails, setDataDetails] = useState(null)
 
     useEffect(() => {
-        getStorebyId(id)
-        getDetailbyId(id)
-        getMenusbyId(id)
-        getServicesbyId(id)
+        getStore(id)
+        getDetail(id)
+        getMenus(id)
+        getServices(id)
     }, [])
 
     useEffect(() => {

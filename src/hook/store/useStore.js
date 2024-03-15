@@ -11,22 +11,22 @@ const Store = () => {
     const [services, setServices] = useState();
 
     //------------------------------------------------------------------------------------------//
-    const getStorebyId = async (id) => {
-
+    const getStore = async (id) => {
         try {
             const response = await axios.get(`/api/v1/store/${id}`);
-            console.log('response', response);
+            console.log('Get store by ID response:', response);
             if (response && response.status === 0) {
-                setStore(response.data)
+                setStore(response.data);
             } else {
-                console.log('Lỗi get');
-                return null
+                console.log('Error getting store');
+                return null;
             }
         } catch (error) {
-            console.error('Đã xảy ra lỗi khi gọi API: ', error);
+            console.error('Error occurred while calling API to get store by ID:', error);
         }
-    }
-    const getDetailbyId = async (id) => {
+    };
+
+    const getDetail = async (id) => {
 
         try {
             const response = await axios.get('/api/v1/store/detail', {
@@ -43,7 +43,7 @@ const Store = () => {
             console.error('Đã xảy ra lỗi khi gọi API: ', error);
         }
     }
-    const getMenusbyId = async (id) => {
+    const getMenus = async (id) => {
 
         try {
             const response = await axios.get('/api/v1/store/menus', {
@@ -60,7 +60,7 @@ const Store = () => {
             console.error('Đã xảy ra lỗi khi gọi API: ', error);
         }
     }
-    const getServicesbyId = async (id) => {
+    const getServices = async (id) => {
 
         try {
             const response = await axios.get('/api/v1/store/services', {
@@ -78,7 +78,7 @@ const Store = () => {
         }
     }
 
-    return { services, store, detail, menus, getStorebyId, getDetailbyId, getMenusbyId, getServicesbyId }
+    return { services, store, detail, menus, getStore, getDetail, getMenus, getServices }
 }
 
 export default Store;

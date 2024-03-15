@@ -29,16 +29,16 @@ export default function RootLayout({ children }) {
 
   let infoToRedux = useAppSelector((state) => state.reducer.manager.info)
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!infoToRedux || infoToRedux.M_Id === null || infoToRedux.M_Id === '') {
-      router.push('/')
-    }
-    else {
-      setIsLoading(false)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!infoToRedux || infoToRedux.M_Id === null || infoToRedux.M_Id === '') {
+  //     router.push('/')
+  //   }
+  //   else {
+  //     setIsLoading(false)
+  //   }
+  // }, [])
 
 
   return isLoading ? (

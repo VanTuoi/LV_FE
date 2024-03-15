@@ -11,7 +11,9 @@ import CheckIn from '@/hook/manager/useCheckIn'
 const DESIRED_FPS = 10; // Đặt FPS
 const intervalTime = 1000 / DESIRED_FPS;
 
-function Scanner() {
+function Scanner(props) {
+
+  const { heightConfig, widthConfig } = props
 
   const { findIdtoQr } = CheckIn();
 
@@ -39,7 +41,7 @@ function Scanner() {
     }
   };
 
-  const tick = () => {
+  const tick = async () => {
     if (videoRef.current && videoRef.current.readyState === videoRef.current.HAVE_ENOUGH_DATA) {
       const canvas = canvasRef.current;
       const video = videoRef.current;
@@ -52,8 +54,12 @@ function Scanner() {
         inversionAttempts: 'dontInvert',
       });
       if (code) {
-        setOutputMessage('Tìm thấy mã QR');
-        findIdtoQr(code)
+
+        let test = await findIdtoQr(code)
+        if (test === null) setOutputMessage('Tìm thấy mã QR hợp lệ')
+        else {
+          setOutputMessage(test)
+        }
         setOutputData(code.data);
         // Vẽ hộp giới hạn mã QR
         context.strokeStyle = '#008000';
@@ -113,8 +119,8 @@ function Scanner() {
       <Box
         style={{
           position: 'relative',
-          width: '500px',
-          height: '400px',
+          width: widthConfig,
+          height: heightConfig,
           margin: 'auto',
           overflow: 'hidden'
         }}>
@@ -152,6 +158,7 @@ function Scanner() {
       </Button>
       {/* <Typography variant='h6'>Nội dung {outputData}</Typography> */}
     </Stack>
+
   );
 }
 

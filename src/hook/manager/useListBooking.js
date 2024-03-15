@@ -2,14 +2,13 @@
 //Third-party
 import { useState } from "react";
 import axios from "@/utils/axios";
-
-// Redux
-import { useAppDispatch } from "@/lib/hooks";
-
+import { useAppSelector } from '@/lib/hooks'
 // In the Project
 
 
 const useActivitySchedule = () => {
+
+    const manager_Id = useAppSelector(state => state.reducer.manager.info.M_Id);
 
     const [uniqueDays, setUniqueDays] = useState([])
     const [frequency, setFrequency] = useState([])
@@ -21,14 +20,16 @@ const useActivitySchedule = () => {
     const getListBooking = async (month) => {
         const time = new Date(month).getTime()
         try {
-            const response = await axios.get('/api/v1/manager/booking-schedule', {
-                params: { month: time }
+            const response = await axios.post('/api/v1/manager/booking-schedule', {
+                month: time,
+                manager_Id: manager_Id
             });
-            if (response && response.errorCode == '0') {
+            console.log('response', response);
+            if (response && response.status === 0) {
                 let list = response.data;
-                setUniqueDays(Array.from(new Set(list.map(item => formatDate(item.RT_BookingDate)))));
+                setUniqueDays(Array.from(new Set(list.map(item => formatDate(item.RT_DateTimeArrival)))));
                 setFrequency(list.reduce((acc, item) => {
-                    const day = formatDate(item.RT_BookingDate);
+                    const day = formatDate(item.RT_DateTimeArrival);
                     if (acc[day]) {
                         acc[day] += 1;
                     } else {
@@ -37,7 +38,7 @@ const useActivitySchedule = () => {
                     return acc;
                 }, {}));
             } else {
-                console.log('Lỗi lấy dữ liệu', response);
+                console.log('Lỗi lấy dữ liệu');
             }
         } catch (error) {
             // Xử lý lỗi, ví dụ timeout hoặc các lỗi khác

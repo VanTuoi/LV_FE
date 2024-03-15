@@ -7,11 +7,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
 import Detail from '@/app/(home)/store/components/storeDetails/storeDetails/Detail';
-import { useAppSelector } from '@/lib/hooks';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -41,15 +39,17 @@ const marks = [
     },
 ];
 
-export default function CustomizedDialogs({ handleClickDemo }) {
+export default function CustomizedDialogs(props) {
+
+    const { handleClickDemo, details } = props
+
     const [open, setOpen] = useState(false);
+
     const [content, setContent] = useState();
 
-    const contentToRedux = useAppSelector((state) => state.reducer.store.content);
-
     useEffect(() => {
-        setContent(contentToRedux);
-    }, [contentToRedux]);
+        setContent(details);
+    }, [details]);
 
     const handleClickOpen = () => {
         handleClickDemo();
@@ -67,7 +67,7 @@ export default function CustomizedDialogs({ handleClickDemo }) {
 
     return (
         <React.Fragment>
-            <Button variant="contained" onClick={handleClickOpen}>
+            <Button variant="outlined" onClick={handleClickOpen}>
                 Xem trước giao diện
             </Button>
             <BootstrapDialog

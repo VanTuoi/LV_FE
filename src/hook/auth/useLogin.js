@@ -114,7 +114,7 @@ const useAuth = () => {
                     if (response.status == 0) {    // thành công
                         console.log('Data', response);
                         dispatch(userSlice.actions.login(response.data));
-                        router.push('/')
+                        router.back();
                     }
                     if (response.status == 1) {
                         setErrorPhone('Không tìm thấy số điện thoại trên hệ thống')

@@ -1,14 +1,11 @@
 
 //Third-party
 import React, { useEffect, useState } from 'react';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TextField, Button, Paper } from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TextField } from '@mui/material';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // In The Project
-import store from '@/lib/features/storeSlice'
-import { useAppDispatch } from "@/lib/hooks";
-import useControllerStore from '@/hook/manager/useControllerStore'
 
 const initialServices = [
     { S_Id: '1', S_IsAvailable: false, S_Name: 'Wifi', S_Describe: null },
@@ -28,9 +25,7 @@ const initialServices = [
 
 const Services = (props) => {
 
-    const dispatch = useAppDispatch()
-    const { setIsChangeServices } = useControllerStore()
-    const { services } = props
+    const { services, setServicesToDB } = props
     const [listServices, setListServices] = useState([]);
 
     useEffect(() => {
@@ -39,15 +34,13 @@ const Services = (props) => {
         else setListServices(initialServices)
     }, [services])
 
-
     const handleToggleAvailability = (index) => {
         const newServices = [...listServices];
         const updatedService = { ...newServices[index] };
         updatedService.S_IsAvailable = !updatedService.S_IsAvailable;
         newServices[index] = updatedService;
         setListServices(newServices);
-        setIsChangeServices(true)
-        dispatch(store.actions.onChangeServices(newServices))
+        setServicesToDB(newServices)
     };
 
     const handleDescriptionChange = (index, newDescription) => {
@@ -56,8 +49,7 @@ const Services = (props) => {
         updatedService.S_Describe = newDescription;
         newServices[index] = updatedService;
         setListServices(newServices);
-        setIsChangeServices(true);
-        dispatch(store.actions.onChangeServices(newServices));
+        setServicesToDB(newServices);
     };
 
 
@@ -76,7 +68,9 @@ const Services = (props) => {
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <TableContainer>
+                <TableContainer
+                    sx={{ maxHeight: 440 }}
+                >
                     <Table size="small">
                         <TableHead>
                             <TableRow>
@@ -103,7 +97,7 @@ const Services = (props) => {
                                             fullWidth
                                             variant="standard"
                                             size="small"
-                                            value={service.S_Describe || ''}
+                                            value={service.S_Describe === null ? '' : service.S_Describe}
                                             onChange={(e) => handleDescriptionChange(index, e.target.value)}
                                         />
                                     </TableCell>

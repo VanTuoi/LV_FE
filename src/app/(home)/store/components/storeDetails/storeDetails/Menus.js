@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs'
 import { Chip, Button, Stack, Typography, List, ListItem, ListItemText, Skeleton } from '@mui/material';
 import { CommentIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
@@ -12,9 +13,18 @@ export default function Menus(props) {
 
     const [listMenu, setListMenu] = useState([]);
 
+    const [dateUpdate, setDateUpdate] = useState('')
+
     useEffect(() => {
-        setListMenu(menus)
-    }, [menus])
+        setListMenu(menus);
+    }, [menus]);
+
+    useEffect(() => {
+        if (listMenu.length > 0) {
+            setDateUpdate(dayjs(listMenu[listMenu.length - 1].updatedAt).format('HH:mm DD/MM/YYYY'));
+            console.log('dateUpdate', dateUpdate);
+        }
+    }, [listMenu]);
 
     return (
         <Stack direction="column" spacing={1}>
@@ -25,7 +35,7 @@ export default function Menus(props) {
                 {listMenu && listMenu.length > 0 ?
                     (
                         <Typography variant="body2" sx={{ padding: '3px', backgroundColor: '#EBEBEB', borderRadius: '4px' }}>
-                            (Cập nhật lần cuối: Tháng 1 năm 2024)
+                            Cập nhật lần cuối: {dateUpdate}
                         </Typography>
                     ) : (
                         <Skeleton variant="text" width={'100%'} />

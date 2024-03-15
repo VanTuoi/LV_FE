@@ -1,24 +1,21 @@
 
 //Third-party
 import React, { useEffect } from 'react';
-import { Button, Table, TableHead, TableBody, TableRow, TableCell, TableContainer } from '@mui/material';
-import { Typography, TextField, AccordionSummary, AccordionDetails, Accordion, Paper } from '@mui/material';
+import { Stack } from '@mui/system';
+import {
+    Button, Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
+    Typography, TextField, AccordionSummary, AccordionDetails, Accordion
+} from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Stack } from '@mui/system';
 
 // In The Project
-import store from '@/lib/features/storeSlice'
-import { useAppDispatch } from "@/lib/hooks";
-import useControllerStore from '@/hook/manager/useControllerStore'
 
 const TableMenu = (props) => {
 
-    const dispatch = useAppDispatch()
-    const { setMenusToDB } = useControllerStore()
-    const { menus } = props
+    const { menus, setMenusToDB } = props
     const [updatedList, setUpdatedList] = React.useState([]);
     const [selectedRow, setSelectedRow] = React.useState(null);
 
@@ -37,7 +34,6 @@ const TableMenu = (props) => {
         newList[index2] = tempItem1;
         setUpdatedList(newList);
         setMenusToDB(newList)
-        // dispatch(store.actions.onChangeMenus(newList))
     };
 
     const handleMoveUp = (index) => {
@@ -57,7 +53,6 @@ const TableMenu = (props) => {
         const newRow = { M_Id: newId, M_Name: '', M_Price: '' };
         setUpdatedList([...updatedList, newRow]);
         setMenusToDB([...updatedList, newRow])
-        // dispatch(store.actions.onChangeMenus([...updatedList, newRow]))
     };
 
     const handleChange = (id, field, value) => {
@@ -69,7 +64,6 @@ const TableMenu = (props) => {
         });
         setUpdatedList(newList);
         setMenusToDB(newList)
-        // dispatch(store.actions.onChangeMenus(newList))
     };
 
     const handleDeleteRow = (index) => {
@@ -84,7 +78,6 @@ const TableMenu = (props) => {
         setUpdatedList(newList);
         setSelectedRow(null);
         setMenusToDB(newList)
-        // dispatch(store.actions.onChangeMenus(newList))
     };
 
     const handleRowClick = (index) => {
@@ -93,10 +86,7 @@ const TableMenu = (props) => {
 
     return (
         //defaultExpanded
-        <Accordion
-            sx={{
-                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.15)',
-            }}
+        <Accordion sx={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.15)', }}
         >
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -104,11 +94,13 @@ const TableMenu = (props) => {
                 id="panel1-header"
             >
                 <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                    Quản lý danh sách đồ uống của cửa hàng
+                    Danh sách đồ uống của cửa hàng
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <TableContainer>
+                <TableContainer
+                    sx={{ maxHeight: 440 }}
+                >
                     <Table size="small" aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -224,7 +216,6 @@ const TableMenu = (props) => {
                             )
                         }
                     </Table>
-                    {/* <Button variant="contained" onClick={handleSave}>Save</Button> */}
                 </TableContainer>
                 <Button sx={{ marginTop: '5px' }} variant="text" onClick={handleAddRow}>Thêm một sản phẩm</Button>
             </AccordionDetails>

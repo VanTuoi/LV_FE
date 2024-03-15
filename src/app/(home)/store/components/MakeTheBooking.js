@@ -1,7 +1,8 @@
 
 // Third-party
 import dynamic from 'next/dynamic'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import {
     Typography, Divider, Stack, Box, Stepper,
     Step, StepLabel, StepContent, Button, Paper
@@ -14,7 +15,7 @@ import ChooseTime from '@/app/(home)/store/components/storeDetails/MakeTheBookin
 import ChoosePeople from '@/app/(home)/store/components/storeDetails/MakeTheBooking/ChoosePeople'
 const ChooseDate = dynamic(() => import('@/app/(home)/store/components/storeDetails/MakeTheBooking/ChooseDate'), { ssr: false })
 import QrCode from '@/app/(home)/store/components/storeDetails/MakeTheBooking/QrCode'
-
+import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 
 const steps = [
     {
@@ -29,9 +30,18 @@ const steps = [
 ];
 
 
-export default function MakeTheBooking() {
+export default function MakeTheBooking(props) {
 
-    const { booking, checkTimeBooking } = useBooking()
+    const { id } = props            // ID của cửa hàng
+
+    const { time, date, people, booking, checkTimeBooking } = useBooking()
+
+    const [dateformat, setDateformat] = useState(dayjs())
+
+    useEffect(() => {
+        setDateformat(dayjs(date).format('DD/MM/YYYY'))
+    }, [date]);
+    // const 
 
     const [isShow, setIsShow] = useState(false);
     const [isSelect, setIsSelect] = useState(true);
@@ -41,7 +51,7 @@ export default function MakeTheBooking() {
 
 
     const handleBook = async () => {
-        let qrCode = await booking();
+        let qrCode = await booking(id);
         if (qrCode) {
             SeterrorMesager(null)
             setBase64ImgQr(qrCode)
@@ -54,12 +64,12 @@ export default function MakeTheBooking() {
 
     const handleNext = async (index) => {
         if (index === 1) {
-            let check = await checkTimeBooking()
+            let check = await checkTimeBooking(id)
             if (check === true) {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1);
                 SeterrorMesager(null)
             } else {
-                SeterrorMesager('Thời gian giữa 2 lần đặt bàn phải cách nhau ít nhất 2 giờ')
+                SeterrorMesager(check)
             }
         } else {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -124,7 +134,7 @@ export default function MakeTheBooking() {
                                                     onClick={() => handleNext(index)}
                                                     sx={{ mt: 1, mr: 1 }}
                                                 >
-                                                    {index === steps.length - 1 ? 'Hoàn thành' : 'Tiếp theo'}
+                                                    {index === steps.length - 1 ? 'Tiếp theo' : 'Tiếp theo'}
                                                 </Button>
                                             </div>
                                         </Box>
@@ -134,13 +144,23 @@ export default function MakeTheBooking() {
                         </Stepper>
                         {activeStep === steps.length && (
                             <Paper square elevation={0} sx={{ p: 1 }}>
-                                {!errorMesager && <Typography variant="subtitle2">Nhấn đặt bàn để hoàn thành</Typography>}
+                                {!errorMesager &&
+                                    <>
+                                        <Typography variant="subtitle2">Thông tin đặt bàn của bạn là: </Typography>
+                                        <Stack sx={{ marginLeft: '10px', backgroundColor: '#e1fee6', padding: '10px', borderRadius: '5px' }}>
+                                            <Typography variant="subtitle2">Ngày đặt: {dateformat}</Typography>
+                                            <Typography variant="subtitle2">Giờ đặt: {time}</Typography>
+                                            <Typography variant="subtitle2">Số lượng: {people} người</Typography>
+                                        </Stack>
+
+                                    </>
+                                }
                                 {errorMesager && <Typography variant="subtitle2" sx={{ color: 'red' }}>{errorMesager}</Typography>}
                                 <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
                                     Quay lại
                                 </Button>
                                 <Button variant="contained" onClick={handleBook} sx={{ mt: 1, mr: 1 }}>
-                                    Đặt bàn
+                                    Xác nhận
                                 </Button>
                             </Paper>
                         )}

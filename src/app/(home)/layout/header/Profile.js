@@ -134,7 +134,7 @@ const Profile = () => {
             <Box Box mt={1} py={1} px={2}>
               <Button
                 onClick={() => handleClickLogout()}
-                href="/authentication/login"
+                href="/"
                 variant="outlined"
                 color="primary"
                 component={Link}

@@ -1,61 +1,81 @@
 'use client'
+
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation'
 import { Grid, Box, Stack, Typography } from '@mui/material';
 import PageContainer from '@/app/manager/components/container/PageContainer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// components
-// import SalesOverview from '@/app/admin/(DashboardLayout)/components/dashboard/SalesOverview';
-// import YearlyBreakup from '@/app/admin/(DashboardLayout)/components/dashboard/YearlyBreakup';
-// import RecentTransactions from '@/app/admin/(DashboardLayout)/components/dashboard/RecentTransactions';
-// import ProductPerformance from '@/app/admin/(DashboardLayout)/components/dashboard/ProductPerformance';
-// import Blog from '@/app/admin/(DashboardLayout)/components/dashboard/Blog';
-// import MonthlyEarnings from '@/app/admin/(DashboardLayout)/components/dashboard/MonthlyEarnings';
 import dynamic from 'next/dynamic'
 const DateWithNoSSR = dynamic(() => import('./components/dashboard/BookingSchedule'), { ssr: false })
+
+import useControllerStore from '@/hook/manager/useControllerStore'
+
 const Dashboard = () => {
-  return (
-    <PageContainer title="Dashboard" description="this is Dashboard">
-      <Box>
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={4}>
-            <Stack direction={'column'}>
-              <Typography
-                variant="h5"
-                textAlign="center"
-              // color="textSecondary"
-              >
-                Trạng thái đặt bàn
-              </Typography>
-              <DateWithNoSSR></DateWithNoSSR>
-            </Stack>
-            {/* <SalesOverview /> */}
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            {/* <SalesOverview /> */}
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                {/* <YearlyBreakup /> */}
-              </Grid>
-              <Grid item xs={12}>
-                {/* <MonthlyEarnings /> */}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            {/* <RecentTransactions /> */}
-          </Grid>
-          <Grid item xs={12} lg={8}>
-            {/* <ProductPerformance /> */}
-          </Grid>
-          <Grid item xs={12}>
-            {/* <Blog /> */}
-          </Grid>
-        </Grid>
-      </Box>
-    </PageContainer >
-  )
+
+    const router = useRouter()
+    const { haveStore, checkHaveStore } = useControllerStore()
+
+    const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        checkHaveStore();
+    }, [])
+
+    useEffect(() => {
+        if (haveStore === true)
+            setIsLoading(true)
+    }, [haveStore])
+
+    return (
+        <PageContainer title="Trang tổng quan" description="this is Dashboard">
+            {isLoading ? (
+                <Box>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} lg={4}>
+                            <Stack direction={'column'}>
+                                <Typography
+                                    variant="h6"
+                                    textAlign="center"
+                                    fontWeight={500}
+                                // color="textSecondary"
+                                >
+                                    Trạng thái đặt bàn hiện tại
+                                </Typography>
+                                <DateWithNoSSR></DateWithNoSSR>
+                            </Stack>
+                            {/* <SalesOverview /> */}
+                        </Grid>
+                        <Grid item xs={12} lg={6}>
+                            {/* <SalesOverview /> */}
+                        </Grid>
+                        <Grid item xs={12} lg={4}>
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    {/* <YearlyBreakup /> */}
+                                </Grid>
+                                <Grid item xs={12}>
+                                    {/* <MonthlyEarnings /> */}
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} lg={4}>
+                            {/* <RecentTransactions /> */}
+                        </Grid>
+                        <Grid item xs={12} lg={8}>
+                            {/* <ProductPerformance /> */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            {/* <Blog /> */}
+                        </Grid>
+                    </Grid>
+                </Box>
+            ) : (
+                'Loading...'
+            )
+            }
+        </PageContainer >
+    )
 }
 
 export default Dashboard;
