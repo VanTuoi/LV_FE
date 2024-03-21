@@ -118,7 +118,9 @@ export default function MakeTheBooking(props) {
 
                                     </StepLabel>
                                     <StepContent>
-                                        {renderStepContent(index)}
+                                        <Box>
+                                            {renderStepContent(index)}
+                                        </Box>
                                         {index === 1 ? errorMesager && <Typography variant="subtitle2" sx={{ color: 'red', mt: 2, mb: 2 }}>{errorMesager}</Typography> : null}
                                         <Box sx={{ mb: 0 }}>
                                             <div>

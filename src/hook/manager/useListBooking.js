@@ -5,7 +5,6 @@ import axios from "@/utils/axios";
 import { useAppSelector } from '@/lib/hooks'
 // In the Project
 
-
 const useActivitySchedule = () => {
 
     const manager_Id = useAppSelector(state => state.reducer.manager.info.M_Id);

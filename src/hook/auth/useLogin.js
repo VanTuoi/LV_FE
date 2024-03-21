@@ -1,13 +1,15 @@
+
+// Third-party
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'
+import { useSession, signOut, signIn, mutate } from 'next-auth/react';
+import axios from '@/utils/axios';
+// In the Project
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import userSlice from '@/lib/features/userSlice'
 import managerSlice from '@/lib/features/managerSlice'
 
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-
-import axios from '@/utils/axios';
-
-const useAuth = () => {
+const useLogin = () => {
 
     const dispatch = useAppDispatch();
     let infoToRedux = useAppSelector((state) => state.reducer.user.info)
@@ -24,8 +26,7 @@ const useAuth = () => {
     const router = useRouter()
 
     useEffect(() => {
-        console.log('infoToRedux', infoToRedux);
-        if (infoToRedux && infoToRedux.U_Id !== null && infoToRedux.U_Id !== '') router.push('/')
+        // if (infoToRedux && infoToRedux.U_Id !== null && infoToRedux.U_Id !== '') router.push('/')
     }, [])
 
     useEffect(() => {
@@ -33,28 +34,10 @@ const useAuth = () => {
         router.prefetch('/')
     }, [router])
 
-
-    // const checklogin = (email, password) => {
-    //     if (jwt) {
-    //         setIsAuthenticated(true)
-    //     }
-    //     else {
-    //         dispatch(login({ email, password }))
-    //         if (jwt) {
-    //             setIsAuthenticated(true)
-    //         }
-    //         else {
-    //             setIsAuthenticated(false)
-    //             setMesseger(EM)
-    //         }
-    //     }
-    //     return { isAuthenticated, messeger };
-    // }
-
     const isValidUsername = (username) => {         // Tên đăng nhập từ 3-20 kí tự
         const regex = /^\S{3,20}$/;
         return regex.test(username);
-    }
+    };
     const isValidPhone = (phone) => {
         // Đảm bảo số điện thoại là 10 số và bắt đầu bằng 0
         const regex = /^0\d{9}$/;
@@ -65,7 +48,7 @@ const useAuth = () => {
         // const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`[\]{}|\\:;<>?,./-]).{8,50}$/;
         const regex = /^.*/;
         return regex.test(password);
-    }
+    };
     const checkUserName = (userName) => {
         if (isValidUsername(userName) === false || !userName) {
             setErrorUserName('Tên đăng nhập phải từ 3-20 kí tự')
@@ -76,7 +59,7 @@ const useAuth = () => {
             setErrorUserName(null)
             return true
         }
-    }
+    };
     const checkPhone = (phone) => {
         if (isValidPhone(phone) === false || !phone) {
             setErrorPhone('Số điện thoại phải đủ 10 chữ số bắt đầu từ 0')
@@ -86,7 +69,7 @@ const useAuth = () => {
             setErrorPhone(null)
             return true
         }
-    }
+    };
     const checkPassWord = (password) => {
         if (!password || isValidPassword(password) === false) {
             setErrorPassWord('Mật khẩu phải có ít nhất 8 kí tự')
@@ -97,46 +80,45 @@ const useAuth = () => {
             setErrorPassWord(null)
             return true
         }
-    }
-
+    };
     const loginUser = async () => {
-        try {
-            if (checkPhone(phone) && checkPassWord(password)) {
+        sessionStorage.setItem("name", "123");
+        // try {
+        //     if (checkPhone(phone) && checkPassWord(password)) {
 
-                setErrorLogin(true)
+        //         setErrorLogin(true)
 
-                const response = await axios.post('/api/v1/auth/login-u', {
-                    U_PhoneNumber: phone,
-                    U_Password: password,
-                });
+        //         const response = await axios.post('/api/v1/auth/login-u', {
+        //             U_PhoneNumber: phone,
+        //             U_Password: password,
+        //         });
 
-                if (response) {
-                    if (response.status == 0) {    // thành công
-                        console.log('Data', response);
-                        dispatch(userSlice.actions.login(response.data));
-                        router.back();
-                    }
-                    if (response.status == 1) {
-                        setErrorPhone('Không tìm thấy số điện thoại trên hệ thống')
-                    }
-                    if (response.status == 4) {
-                        setErrorPhone('Tài khoản của bạn đang bị tạm khóa')
-                    }
-                    if (response.status == 2) {
-                        setErrorPassWord('Mật khẩu không đúng')
-                        console.log('Mật khẩu không đúng');
-                    }
-                } else {
-                    console.log('Lỗi lấy dữ liệu', response);
-                    setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
-                }
-            } else {
-                setErrorLogin(false)
-            }
-        } catch (error) {
-            setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
-        }
-    }
+        //         if (response) {
+        //             if (response.status == 0) {    // thành công
+        //                 console.log('Data', response);
+        //                 router.back();
+        //             }
+        //             if (response.status == 1) {
+        //                 setErrorPhone('Không tìm thấy số điện thoại trên hệ thống')
+        //             }
+        //             if (response.status == 4) {
+        //                 setErrorPhone('Tài khoản của bạn đang bị tạm khóa')
+        //             }
+        //             if (response.status == 2) {
+        //                 setErrorPassWord('Mật khẩu không đúng')
+        //                 console.log('Mật khẩu không đúng');
+        //             }
+        //         } else {
+        //             console.log('Lỗi lấy dữ liệu', response);
+        //             setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
+        //         }
+        //     } else {
+        //         setErrorLogin(false)
+        //     }
+        // } catch (error) {
+        //     setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
+        // }
+    };
     const loginManager = async () => {
         try {
             if (checkPhone(phone) && checkPassWord(password)) {
@@ -174,8 +156,10 @@ const useAuth = () => {
         } catch (error) {
             setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
         }
-    }
-
+    };
+    const handleClickLoginWithGoogle = async () => {
+        signIn('google')
+    };
     const logout = () => {
         try {
             dispatch(logout())
@@ -184,11 +168,11 @@ const useAuth = () => {
         } finally {
             router.push('/')
         }
-    }
+    };
     return {
         errorLogin, errorUserName, errPhone, errorPassWord,
-        checkUserName, checkPhone, checkPassWord, loginUser, loginManager, logout
-    }
+        checkUserName, checkPhone, checkPassWord, loginUser, loginManager, handleClickLoginWithGoogle, logout
+    };
 }
 
-export default useAuth
+export default useLogin

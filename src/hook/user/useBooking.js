@@ -67,7 +67,7 @@ const useBooking = () => {
                 U_Id: ID_User,
                 CS_Id: id,
                 RT_NumberOfParticipants: people,
-                RT_Ip: ip,
+                RT_Ip: ip | null,
             });
 
             console.log('response', response);

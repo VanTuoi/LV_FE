@@ -64,19 +64,19 @@ const Services = (props) => {
                 id="panel1-header"
             >
                 <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                    Quản lý danh sách dịch vụ của cửa hàng
+                    Danh sách dịch vụ
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <TableContainer
-                    sx={{ maxHeight: 440 }}
+                    sx={{ maxHeight: 300 }}
                 >
                     <Table size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ width: '50px', py: 0.5, px: 1, textAlign: 'center', fontWeight: '600', fontSize: '14px' }} align="right">Có Sẵn</TableCell>
-                                <TableCell sx={{ width: '150px', py: 0.5, px: 1, textAlign: 'left', fontWeight: '600', fontSize: '14px' }}>Tên Dịch Vụ</TableCell>
-                                <TableCell sx={{ py: 0.5, px: 1, textAlign: 'center', fontWeight: '600', fontSize: '14px' }} align="right">Mô Tả (nếu có) </TableCell>
+                                <TableCell sx={{ width: '50px', py: 0.5, px: 1, textAlign: 'center', fontWeight: '600', fontSize: '14px' }} align="right">Có sẵn</TableCell>
+                                <TableCell sx={{ width: '150px', py: 0.5, px: 1, textAlign: 'left', fontWeight: '600', fontSize: '14px' }}>Tên dịch vụ</TableCell>
+                                <TableCell sx={{ py: 0.5, px: 1, textAlign: 'center', fontWeight: '600', fontSize: '14px' }} align="right">Mô Tả </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

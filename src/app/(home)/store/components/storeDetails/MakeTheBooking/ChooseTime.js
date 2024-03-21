@@ -4,15 +4,17 @@ import {
     Button,
     Typography,
     Stack,
-    Divider,
     Box
 } from '@mui/material';
 
+// In the Project
 import useBooking from '@/hook/user/useBooking';
+import useStore from '@/hook/store/useStore';
 import { useAppSelector } from '@/lib/hooks';
 
+// Creat data
 const timeSlots = {
-    'Buổi Sáng': [
+    'Sáng': [
         { time: '07:00' },
         { time: '07:30' },
         { time: '08:00' },
@@ -24,11 +26,11 @@ const timeSlots = {
         { time: '11:00' },
         { time: '11:30' }
     ],
-    'Buổi Trưa': [
+    'Trưa': [
         { time: '12:00' },
         { time: '12:30' }
     ],
-    'Buổi Chiều': [
+    'Chiều': [
         { time: '13:00' },
         { time: '13:30' },
         { time: '14:00' },
@@ -40,7 +42,7 @@ const timeSlots = {
         { time: '17:00' },
         { time: '17:30' }
     ],
-    'Buổi Tối': [
+    'Tối': [
         { time: '18:00' },
         { time: '18:30' },
         { time: '19:00' },
@@ -52,7 +54,7 @@ const timeSlots = {
         { time: '22:00' },
         { time: '22:30' }
     ],
-    'Buổi Khuya': [
+    'Khuya': [
         { time: '23:00' },
         { time: '23:30' },
         { time: '24:00' }
@@ -63,6 +65,8 @@ const timeSlots = {
 export default function Time() {
 
     const { getTime } = useBooking()
+    const { getTimeOpen, getTimeClose } = useStore()
+
     const [date, setDate] = useState('')
     const [selectTime, setSelectTime] = useState('')
 
@@ -82,7 +86,7 @@ export default function Time() {
         getTime(value)
     }
 
-    const isShowTime = (timeString) => {
+    const isShowTime = (timeString) => {    // Kiểm tra xem ngày có hợp lệ để hiển thị
         const currentTime = dayjs();
         const [hours, minutes] = timeString.split(':').map(Number);
         const newTime = currentTime.set('hour', hours).set('minute', minutes);
@@ -95,7 +99,7 @@ export default function Time() {
         // Kiểm tra nếu date bằng currentTime
         if (dayjs(date).isSame(currentTime, 'day')) {
             // So sánh theo giờ và phút
-            if (newTime.isBefore(currentTime)) {
+            if (newTime.isBefore(currentTime) || newTime.isBefore(dayjs(getTimeOpen(), "HH:mm:ss")) || newTime.isAfter(dayjs(getTimeClose(), "HH:mm:ss"))) {
                 return false;
             }
         }
@@ -109,7 +113,7 @@ export default function Time() {
             <Stack direction="column" spacing={0}>
                 {Object.keys(timeSlots).map((label) => (
                     <Box key={label}>
-                        <Typography variant="body1" sx={{ my: 1 }}>
+                        <Typography variant="body1" sx={{ my: 0 }}>
                             {label}
                         </Typography>
                         <Stack direction="row" spacing={0} flexWrap="wrap" justifyContent="flex-start">
@@ -117,7 +121,7 @@ export default function Time() {
                                 <React.Fragment key={`button-${item.time}`}>
                                     {isShowTime(item.time) && (
                                         <Button
-                                            style={{ maxWidth: '50px', maxHeight: '30px', minWidth: '50px', minHeight: '30px' }}
+                                            style={{ maxWidth: '45px', maxHeight: '30px', minWidth: '45px', minHeight: '30px' }}
                                             sx={{
                                                 margin: '2px',
                                                 border: selectTime === item.time ? '2px solid' : '',

@@ -94,19 +94,19 @@ const TableMenu = (props) => {
                 id="panel1-header"
             >
                 <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                    Danh sách đồ uống của cửa hàng
+                    Danh sách đồ uống
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <TableContainer
-                    sx={{ maxHeight: 440 }}
+                    sx={{ maxHeight: 300 }}
                 >
                     <Table size="small" aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="left" sx={{ width: '20px', fontWeight: 'bold', fontSize: '14px' }}>STT</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold', fontSize: '14px' }}>Tên đồ uống</TableCell>
-                                <TableCell sx={{ width: '125px', fontWeight: 'bold', fontSize: '14px' }}>Giá bán(VNĐ)</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold', fontSize: '14px' }}>Tên</TableCell>
+                                <TableCell sx={{ width: '125px', fontWeight: 'bold', fontSize: '14px' }}>Giá(VNĐ)</TableCell>
                                 <TableCell align="center" sx={{ width: '100px', fontWeight: 'bold', fontSize: '14px' }}>Hành động</TableCell>
                             </TableRow>
                         </TableHead>

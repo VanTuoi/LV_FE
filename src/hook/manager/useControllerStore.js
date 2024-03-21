@@ -16,6 +16,9 @@ const ConTrollerStore = () => {
     const [nameToDB, setNameToDB] = useState('');
     const [detailToDB, setDetailToDB] = useState('');
     const [locationToDB, setLocationToDB] = useState('');
+    const [maxPeopleToDB, setMaxPeopleToDB] = useState(1);
+    const [timeOpenToDB, setTimeOpenToDB] = useState(dayjs("07:00:00", "HH:mm:ss"));
+    const [timeCloseToDB, setTimeCloseToDB] = useState(dayjs("22:00:00", "HH:mm:ss"));
     const [menusToDB, setMenusToDB] = useState([]);
     const [servicesToDB, setServicesToDB] = useState([]);
     const [tagsToDB, setTagsToDB] = useState([]);
@@ -41,7 +44,6 @@ const ConTrollerStore = () => {
             setHaveStore(false);
         }
     };
-
     const getFullStore = async () => {
         if (Manager_ID && Manager_ID !== null && Manager_ID !== '') {
             try {
@@ -53,6 +55,9 @@ const ConTrollerStore = () => {
                     setIdToDB(response.data.CS_Id);
                     setNameToDB(response.data.CS_Name);
                     setDetailToDB(response.data.CS_Detail);
+                    setMaxPeopleToDB(response.data.CS_MaxPeople);
+                    setTimeOpenToDB(dayjs(response.data.CS_TimeOpen, "HH:mm:ss"));
+                    setTimeCloseToDB(dayjs(response.data.CS_TimeClose, "HH:mm:ss"));
                     setLocationToDB(response.data.CS_Location);
                     setMenusToDB(response.data.Menus);
                     setServicesToDB(response.data.Services);
@@ -67,7 +72,6 @@ const ConTrollerStore = () => {
             console.error('No manager ID information available');
         }
     };
-
     const createStore = async () => {
         try {
             const response = await axios.post('/api/v1/store/m-store', {
@@ -75,24 +79,26 @@ const ConTrollerStore = () => {
                 CS_Name: nameToDB,
                 CS_Location: locationToDB,
                 CS_Detail: detailToDB,
+                CS_MaxPeople: maxPeopleToDB,
+                CS_TimeOpen: timeOpenToDB,
+                CS_TimeClose: timeCloseToDB,
                 CS_ListMenus: menusToDB,
                 CS_ListServices: servicesToDB,
                 // Tag ?
             });
-            console.log('Create store response:', response);
+            console.log('Create store response', response);
             if (response && response.status === 0) {
                 setIsError('Thành công');
                 return true;
             } else {
                 setIsError('Lỗi tạo cửa hàng');
-                return false;
+                return '55';
             }
         } catch (error) {
             console.error('Error occurred while calling API to create store:', error);
             return false;
         }
     };
-
     const updateStore = async () => {
         console.log('menusToDB', menusToDB);
         if (Manager_ID && Manager_ID !== null && Manager_ID !== '') {
@@ -102,6 +108,9 @@ const ConTrollerStore = () => {
                     CS_Name: nameToDB,
                     CS_Location: locationToDB,
                     CS_Detail: detailToDB,
+                    CS_MaxPeople: maxPeopleToDB,
+                    CS_TimeOpen: timeOpenToDB,
+                    CS_TimeClose: timeCloseToDB,
                     CS_ListMenus: menusToDB,
                     CS_ListServices: servicesToDB,
                 });
@@ -122,10 +131,9 @@ const ConTrollerStore = () => {
         }
     };
 
-
     return {
-        idToDB, nameToDB, detailToDB, locationToDB, menusToDB, servicesToDB, haveStore,
-        setNameToDB, setDetailToDB, setLocationToDB, setMenusToDB, setServicesToDB,
+        idToDB, nameToDB, detailToDB, locationToDB, maxPeopleToDB, timeOpenToDB, timeCloseToDB, menusToDB, servicesToDB, haveStore,
+        setNameToDB, setDetailToDB, setLocationToDB, setMaxPeopleToDB, setTimeOpenToDB, setTimeCloseToDB, setMenusToDB, setServicesToDB,
         checkHaveStore, getFullStore, createStore, updateStore
     }
 }

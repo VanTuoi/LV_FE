@@ -23,7 +23,8 @@ const Schedule = () => {
             const response = await axios.get('/api/v1/manager/holiday', {
                 params: { AS_Holiday: time },
                 timeout: 10000 // Thiết lập timeout là 10 giây
-            });
+            })
+            console.log('dữ liệulấy ds ngày nghĩ ', response);
             if (response && response.data.errorCode == '0') {
                 let list = response.data.data; // Giả sử dữ liệu trả về nằm trong response.data.data
                 setUniqueDays(Array.from(new Set(list.map(item => formatDate(item.AS_Holiday)))));
@@ -37,7 +38,7 @@ const Schedule = () => {
                     return acc;
                 }, {}));
             } else {
-                console.log('Lỗi lấy dữ liệu', response);
+
             }
         } catch (error) {
             console.error('Đã xảy ra lỗi khi gọi API: ', error);

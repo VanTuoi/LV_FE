@@ -30,7 +30,7 @@ const Dashboard = ({ params }) => {
                         params={`${params} ${id}`}
                     >
                     </CusTomBreadcrumbs>
-                    <Slider mt={1} />
+                    {/* <Slider mt={1} /> */}
                 </Grid>
 
                 <Grid item xs={12} lg={8}

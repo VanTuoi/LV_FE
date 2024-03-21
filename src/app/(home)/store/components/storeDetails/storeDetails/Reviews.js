@@ -85,7 +85,7 @@ export default function Reviews() {
                 {isLoading ? (
                     <Skeleton animation="wave" variant="text" height={50} sx={{ fontSize: '1rem' }} >
                         <Typography variant="h6" component="h6" minWidth={60} sx={{ textAlign: 'center' }}>
-                            ########################
+                            ################
                         </Typography>
                     </Skeleton>
                 )

@@ -94,7 +94,7 @@ export default function DateCalendarServerRequest() {
             requestAbortController.current.abort();
         }
         getHolidays(date);
-        setIsLoading(true);
+        // setIsLoading(true);                          // Ko load khi thay đổi tháng
     };
 
     return (

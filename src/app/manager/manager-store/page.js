@@ -20,8 +20,9 @@ import useControllerStore from '@/hook/manager/useControllerStore'
 
 const ManagerStore = () => {
 
-    const { idToDB, nameToDB, detailToDB, locationToDB, menusToDB, servicesToDB, haveStore,
-        setNameToDB, setDetailToDB, setLocationToDB, setMenusToDB, setServicesToDB,
+    const {
+        idToDB, nameToDB, detailToDB, locationToDB, maxPeopleToDB, timeOpenToDB, timeCloseToDB, menusToDB, servicesToDB, haveStore,
+        setNameToDB, setDetailToDB, setLocationToDB, setMaxPeopleToDB, setTimeOpenToDB, setTimeCloseToDB, setMenusToDB, setServicesToDB,
         getFullStore, checkHaveStore, createStore, updateStore
     } = useControllerStore()
 
@@ -59,6 +60,7 @@ const ManagerStore = () => {
 
     const handleCreateStore = async () => {
         let status = await createStore()
+        // console.log('status', status);
         status === true ? toast.success('Tạo mới cửa hàng thành công') : toast.error('Tạo mới cửa hàng thất bại')
     }
 
@@ -67,7 +69,19 @@ const ManagerStore = () => {
             {isShow === true ? (
                 <Grid container spacing={1}>
                     <Grid item xs={12} lg={12}>
-                        <Profile id={idToDB} name={nameToDB} setNameToDB={setNameToDB} location={locationToDB} setLocationToDB={setLocationToDB} />
+                        <Profile
+                            id={idToDB}
+                            name={nameToDB}
+                            location={locationToDB}
+                            maxPeopleToDB={maxPeopleToDB}
+                            timeOpenToDB={timeOpenToDB}
+                            timeCloseToDB={timeCloseToDB}
+                            setNameToDB={setNameToDB}
+                            setLocationToDB={setLocationToDB}
+                            setMaxPeopleToDB={setMaxPeopleToDB}
+                            setTimeOpenToDB={setTimeOpenToDB}
+                            setTimeCloseToDB={setTimeCloseToDB}
+                        />
                     </Grid>
                     <Grid item xs={12} lg={6}>
                         <TableMenu menus={menusToDB} setMenusToDB={setMenusToDB} />

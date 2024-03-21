@@ -60,8 +60,9 @@ export default function TinyMCE(props) {
             initialValue={content}
             init={{
               height: 450,
+              width: '100%',
               plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
-              toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+              toolbar: 'undo redo | blocks| bold italic underline strikethrough | image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
             }}
           />
           <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
