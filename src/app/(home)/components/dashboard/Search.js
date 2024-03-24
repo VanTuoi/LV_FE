@@ -284,7 +284,7 @@ export default function ControllableStates() {
                         sx={{
                             fontWeight: '600',
                             fontSize: '16px',
-                            height: '47px',
+                            height: '45px',
                             '@media (max-width: 900px)': {
                                 width: '100%',
                             },

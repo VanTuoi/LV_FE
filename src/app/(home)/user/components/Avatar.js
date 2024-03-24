@@ -3,17 +3,22 @@ import { Avatar, Stack, Box, Typography } from '@mui/material';
 
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-
 // In the Project
 import ExperienceBar from './ExperienceBar/ExperienceBar'
+import useSessionStorage from '@/hook/useSessionStorage/useSessionStorage';
 
 export default function ImageAvatars() {
-    let [name, setName] = useState()
+
+
+    const { GetItemSessionStorage } = useSessionStorage()
+
+    let isLogin = GetItemSessionStorage('U_name') // Check login
+
+    const [name, setName] = useState()
+
     useEffect(() => {
-        // Perform localStorage action
-        setName(localStorage.getItem('name'))
-        console.log('name', name);
-    }, [localStorage.getItem('name')])
+        setName(isLogin)
+    }, [isLogin])
 
     const handleClickChangeAvatar = () => {
         const input = document.createElement('input');

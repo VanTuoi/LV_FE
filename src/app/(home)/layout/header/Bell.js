@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Backdrop from '@mui/material/Backdrop';
 import Link from "next/link";
 import {
@@ -18,11 +18,11 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
-import useSearch from '@/hook/user/useSearch'
-import { useAppSelector, useAppDispatch } from '@/lib/hooks';
-
 import { IconBell } from "@tabler/icons-react";
+
+// In the Project
+import useSessionStorage from '@/hook/useSessionStorage/useSessionStorage';
+
 
 const NotificationsBooking = () => {
 
@@ -37,8 +37,8 @@ const NotificationsBooking = () => {
     )
   }
   return (  // Xanh #EAF6F3, Vàng #FFF9DB, đỏ #FFD1C1
-    <>
-      <Accordion sx={{ margin: 0, marginTop: 1, backgroundColor: '#FFF9DB' }} >
+    <Box>
+      <Accordion sx={{ margin: 0, marginTop: 1, backgroundColor: '#FFF9DB' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
@@ -47,33 +47,23 @@ const NotificationsBooking = () => {
           <Typography variant="body1">7h30 08/3/2024</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography variant="body1" fontWeight={400} >
-            Thời gian đến:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` 16:30 08/3/2024`}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" fontWeight={400} >
-            Nơi đến:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` The Coffee House `}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" fontWeight={400} >
-            Số lượng:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` 10 `}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" fontWeight={400} >
-            Trạng thái:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` Đã muộn `}
-            </Typography>
-          </Typography>
+          <p>
+            Thời gian đến:{" "}
+            <span style={{ fontWeight: 400 }}>16:30 08/3/2024</span>
+          </p>
+          <p>
+            Nơi đến: <span style={{ fontWeight: 400 }}>The Coffee House</span>
+          </p>
+          <p>
+            Số lượng: <span style={{ fontWeight: 400 }}>10</span>
+          </p>
+          <p>
+            Trạng thái: <span style={{ fontWeight: 400 }}>Đã muộn</span>
+          </p>
         </AccordionDetails>
-      </Accordion >
-      <Accordion sx={{ margin: 0, marginTop: 1, backgroundColor: '#EAF6F3' }} >
+      </Accordion>
+
+      <Accordion sx={{ margin: 0, marginTop: 1, backgroundColor: '#EAF6F3' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
@@ -82,33 +72,23 @@ const NotificationsBooking = () => {
           <Typography variant="body1">16h30 08/3/2024</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography variant="body1" fontWeight={400} >
-            Thời gian đến:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` 16:30 08/3/2024`}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" fontWeight={400} >
-            Nơi đến:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` The Coffee House `}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" fontWeight={400} >
-            Số lượng:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` 10 `}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" fontWeight={400} >
-            Trạng thái:
-            <Typography display="inline" variant="body1" fontWeight={500}>
-              {` Chưa đến giờ `}
-            </Typography>
-          </Typography>
+          <p>
+            Thời gian đến:{" "}
+            <span style={{ fontWeight: 400 }}>16:30 08/3/2024</span>
+          </p>
+          <p>
+            Nơi đến: <span style={{ fontWeight: 400 }}>The Coffee House</span>
+          </p>
+          <p>
+            Số lượng: <span style={{ fontWeight: 400 }}>10</span>
+          </p>
+          <p>
+            Trạng thái: <span style={{ fontWeight: 400 }}>Chưa đến giờ</span>
+          </p>
         </AccordionDetails>
-      </Accordion >
-    </ >
+      </Accordion>
+
+    </Box >
   );
 }
 
@@ -128,7 +108,15 @@ const NotificationsNew = () => {
 const ButtonSelectLocation = () => {
 
 
-  let infoToRedux = useAppSelector((state) => state.reducer.user.info)
+  const { GetItemSessionStorage } = useSessionStorage()
+
+  let isLogin = GetItemSessionStorage('U_name') // Check login
+
+  const [haveLogin, setHaveLogin] = useState()
+
+  useEffect(() => {
+    setHaveLogin(isLogin)
+  }, [isLogin])
 
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
@@ -144,7 +132,7 @@ const ButtonSelectLocation = () => {
     setValue(newValue);
   };
 
-  return infoToRedux && infoToRedux.U_Id !== null ? (
+  return haveLogin && haveLogin !== null && haveLogin !== '' ? (
     <Box>
       <IconButton
         size="small"

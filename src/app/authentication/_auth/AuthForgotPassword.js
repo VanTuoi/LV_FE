@@ -1,30 +1,31 @@
 
 // Third-party
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import Divider from '@mui/material/Divider';
-import GoogleIcon from '@mui/icons-material/Google';
 import {
     Box,
     Typography,
-    FormGroup,
     FormControlLabel,
     Button,
     Stack,
-    Checkbox,
 } from "@mui/material";
-import Link from "next/link";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-// In the Project
+// In The project
 import CustomTextField from "@/app/authentication/components/forms/CustomTextField";
 import CustomTypography from "@/app/authentication/components/forms/CustomTypography";
-import useAuth from "@/hook/auth/useLogin"
+import useForgotPassword from "@/hook/auth/useForgotPassword"
 import { styled } from '@mui/material/styles';
 
 
+// Custom seclect button
 const BpIcon = styled('span')(({ theme }) => ({
     borderRadius: '50%',
     width: 16,
@@ -81,19 +82,18 @@ function BpRadio(props) {
 }
 
 
-const AuthLogin = ({ title, subtitle, subtext }) => {
+const AuthForgotPassword = ({ title, subtitle, subtext }) => {
 
-    const {
-        checkPhone, checkPassword, loginUser, loginManager, handleClickLoginWithGoogle,
-        errorLogin, errPhone, errorPassWord
-    } = useAuth();
+    const { status, errEmail, setStatus, checkEmail, forgotPassword } = useForgotPassword();
 
-    const [isUser, setIsUser] = useState('user');           // Kiểm tra tài khoản đky là admin hay user
+    const [isUser, setIsUser] = useState('user');           // Kiểm tra tài khoản đky là manager hay user
 
-    const [isChecked, setIsChecked] = useState(false);      // Kiểm tra check show pwd
+    const handleClose = () => {
+        setStatus(false);
+    };
 
-    const handleClickLogin = () => {
-        isUser === 'user' ? loginUser() : loginManager()
+    const handleClickForgot = () => {
+        isUser === 'user' ? forgotPassword() : null
     }
 
     const handleChangeUser = (event) => {
@@ -117,34 +117,11 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                         htmlFor="username"
                         mb="5px"
                     >
-                        Số điện thoại đăng nhập
+                        Nhập email đăng nhập
                     </Typography>
-                    <CustomTextField onChange={(event) => checkPhone(event.target.value)} variant="outlined" type="number" fullWidth />
-                    {errPhone ? (<CustomTypography>{errPhone}</CustomTypography>) : ''}
+                    <CustomTextField onChange={(event) => checkEmail(event.target.value)} variant="outlined" type="text" fullWidth />
+                    {errEmail ? (<CustomTypography>{errEmail}</CustomTypography>) : ''}
                 </Box>
-                <Box>
-                    <Typography
-                        variant="subtitle1"
-                        fontWeight={600}
-                        component="label"
-                        htmlFor="password"
-                        mb="5px"
-                    >
-                        Mật khẩu
-                    </Typography>
-                    <CustomTextField onChange={(event) => checkPassword(event.target.value)} type={isChecked ? 'text' : 'password'} variant="outlined" fullWidth />
-                    {errorPassWord ? (<CustomTypography>{errorPassWord}</CustomTypography>) : ''}
-                </Box>
-                <Stack spacing={1} direction="row" alignItems="center">
-                    <FormGroup
-                    >
-                        <FormControlLabel
-                            sx={{ marginRight: '-5px' }}
-                            control={<Checkbox checked={isChecked} onClick={() => setIsChecked(!isChecked)} />}
-                            label="Hiện mât khẩu"
-                        />
-                    </FormGroup>
-                </Stack>
                 <Stack
                     justifyContent="space-between"
                     direction="row"
@@ -167,46 +144,39 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             </Stack>
             <Stack direction={'column'} spacing={1} alignItems={'center'}>
                 <Button
+                    sx={{ textTransform: 'none' }}
                     color="primary"
                     variant="contained"
                     size="large"
                     fullWidth
-                    onClick={() => handleClickLogin()}
+                    onClick={() => handleClickForgot()}
                     type="submit"
                 >
-                    Đăng nhập
-                </Button>
-                <Typography
-                    component={Link}
-                    href="/authentication/forgot-password"
-                    fontWeight="500"
-                    sx={{
-                        // marginTop: '5px',
-                        textDecoration: "none",
-                        color: "primary.main",
-                    }}
-                >
-                    Quên mật khẩu ?
-                </Typography>
-                <Divider variant="middle"
-                    style={{ width: '100%' }}
-                    sx={{ marginTop: '15px' }}
-                >Hoặc</Divider>
-                <Button
-                    sx={{ marginTop: '20px' }}
-                    variant="outlined"
-                    size="large"
-                    fullWidth
-                    onClick={() => handleClickLoginWithGoogle()}
-                    type="submit"
-                    startIcon={<GoogleIcon />}
-                >
-                    Đăng nhập với Google
+                    Lấy lại mật khẩu
                 </Button>
             </Stack>
             {subtitle}
+            <Dialog
+                open={status}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Đặt lại mật khẩu"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Yêu cầu đặt lại mật khẩu của bạn đã được xử lý, vui lòng kiểm tra hộp thư để tiến hành thay đổi mật khẩu
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} autoFocus>
+                        Xác nhận
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
 
-export default AuthLogin;
+export default AuthForgotPassword;

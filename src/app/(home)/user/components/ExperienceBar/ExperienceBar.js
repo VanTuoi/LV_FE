@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Typography, LinearProgress, Box, Tooltip } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { tooltipClasses } from '@mui/material/Tooltip';
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -29,11 +31,16 @@ function ExperienceBar({ level, currentExp, maxExp }) {
             {/* Hiển thị thanh tiến độ */}
             <HtmlTooltip
                 title={
-                    <React.Fragment>
-                        <Typography color="inherit">Level hiện tại là {level}</Typography>
+                    <Box>
+                        <Typography color="textPrimary">Level hiện tại là {level}</Typography>
                         <Typography variant='body2'>{"Cần"} <b>{150}</b> {'điểm nữa để lên cấp'}</Typography>
-                        <i style={{ cursor: 'pointer', color: '#006BD6' }} onClick={() => handleClickDetailLaw()}>X em chi tiết cách tích điểm và lợi ích khi lên cấp </i>
-                    </React.Fragment>
+                        <IconButton
+                            sx={{ cursor: 'pointer', color: '#006BD6' }}
+                            onClick={() => handleClickDetailLaw()}
+                        >
+                            <InfoOutlinedIcon />
+                        </IconButton>
+                    </Box>
                 }
                 placement="right-end"
             >
@@ -46,7 +53,7 @@ function ExperienceBar({ level, currentExp, maxExp }) {
                         value={progress}
                         sx={{ height: '15px', zIndex: '-1' }} // Tăng độ cao của LinearProgress
                     />
-                    <Box sx={{ marginTop: '-15px', marginLeft: '50px', zIndex: 1 }} >
+                    <Box sx={{ marginTop: '-16px', marginLeft: '60px', zIndex: 1 }} >
                         <Typography variant='body2' fontWeight={'600'} color={'white'}>level {level}</Typography>
                     </Box>
                 </Box>

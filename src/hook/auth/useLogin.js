@@ -1,4 +1,3 @@
-
 // Third-party
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'
@@ -70,7 +69,7 @@ const useLogin = () => {
             return true
         }
     };
-    const checkPassWord = (password) => {
+    const checkPassword = (password) => {
         if (!password || isValidPassword(password) === false) {
             setErrorPassWord('Mật khẩu phải có ít nhất 8 kí tự')
             setErrorLogin(true)
@@ -82,46 +81,48 @@ const useLogin = () => {
         }
     };
     const loginUser = async () => {
-        sessionStorage.setItem("name", "123");
-        // try {
-        //     if (checkPhone(phone) && checkPassWord(password)) {
 
-        //         setErrorLogin(true)
+        try {
+            if (checkPhone(phone) && checkPassword(password)) {
 
-        //         const response = await axios.post('/api/v1/auth/login-u', {
-        //             U_PhoneNumber: phone,
-        //             U_Password: password,
-        //         });
+                setErrorLogin(true)
 
-        //         if (response) {
-        //             if (response.status == 0) {    // thành công
-        //                 console.log('Data', response);
-        //                 router.back();
-        //             }
-        //             if (response.status == 1) {
-        //                 setErrorPhone('Không tìm thấy số điện thoại trên hệ thống')
-        //             }
-        //             if (response.status == 4) {
-        //                 setErrorPhone('Tài khoản của bạn đang bị tạm khóa')
-        //             }
-        //             if (response.status == 2) {
-        //                 setErrorPassWord('Mật khẩu không đúng')
-        //                 console.log('Mật khẩu không đúng');
-        //             }
-        //         } else {
-        //             console.log('Lỗi lấy dữ liệu', response);
-        //             setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
-        //         }
-        //     } else {
-        //         setErrorLogin(false)
-        //     }
-        // } catch (error) {
-        //     setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
-        // }
+                const response = await axios.post('/api/v1/auth/login-u', {
+                    U_PhoneNumber: phone,
+                    U_Password: password,
+                });
+
+                if (response) {
+                    if (response.status == 0) {    // thành công
+                        console.log('Data', response);
+                        sessionStorage.setItem('U_name', response.data.U_Name);
+                        sessionStorage.setItem('U_PrestigeScore', response.data.U_PrestigeScore);
+                        router.back();
+                    }
+                    if (response.status == 1) {
+                        setErrorPhone('Không tìm thấy số điện thoại trên hệ thống')
+                    }
+                    if (response.status == 4) {
+                        setErrorPhone('Tài khoản của bạn đang bị tạm khóa')
+                    }
+                    if (response.status == 2) {
+                        setErrorPassWord('Mật khẩu không đúng')
+                        console.log('Mật khẩu không đúng');
+                    }
+                } else {
+                    console.log('Lỗi lấy dữ liệu', response);
+                    setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
+                }
+            } else {
+                setErrorLogin(false)
+            }
+        } catch (error) {
+            setErrorLogin('Đăng nhập thất bại! vui lòng thử lại sau ít phút nữa')
+        }
     };
     const loginManager = async () => {
         try {
-            if (checkPhone(phone) && checkPassWord(password)) {
+            if (checkPhone(phone) && checkPassword(password)) {
 
                 setErrorLogin(true)
 
@@ -171,7 +172,7 @@ const useLogin = () => {
     };
     return {
         errorLogin, errorUserName, errPhone, errorPassWord,
-        checkUserName, checkPhone, checkPassWord, loginUser, loginManager, handleClickLoginWithGoogle, logout
+        checkUserName, checkPhone, checkPassword, loginUser, loginManager, handleClickLoginWithGoogle, logout
     };
 }
 

@@ -6,7 +6,6 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import Link from 'next/link';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -77,7 +76,7 @@ function BpRadio(props) {
 
 const AuthRegister = ({ title, subtitle, subtext }) => {
 
-    const { registerUser, registerManager, checkName, checkEmail, checkPhone, checkPassWord,
+    const { registerUser, registerManager, checkName, checkEmail, checkPhone, checkPassword,
         errName, errEmail, errPhone, errPassword, isErrorRegister
     } = useRegister()
 
@@ -249,7 +248,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
                         <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password" mb="5px" mt="25px">
                             Mật khẩu
                         </Typography>
-                        <CustomTextField onChange={(event) => checkPassWord(event.target.value)} id="password" variant="outlined" fullWidth />
+                        <CustomTextField onChange={(event) => checkPassword(event.target.value)} id="password" variant="outlined" fullWidth />
                         {errPassword ? (<CustomTypography>{errPassword}</CustomTypography>) : ''}
                     </Box>
                     <FormControl>

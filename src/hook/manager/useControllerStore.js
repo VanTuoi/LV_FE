@@ -73,6 +73,7 @@ const ConTrollerStore = () => {
         }
     };
     const createStore = async () => {
+        console.log('detailToDB', detailToDB);
         try {
             const response = await axios.post('/api/v1/store/m-store', {
                 M_Id: Manager_ID,

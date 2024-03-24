@@ -68,7 +68,7 @@ const useRegister = () => {
     }
     const checkPhone = (phone) => {
         if (isValidPhone(phone) === false || !phone) {
-            setErrorPhone('Số điện thọa phải đủ 10 chữ số bắt đầu từ 0')
+            setErrorPhone('Số điện thoại phải đủ 10 chữ số bắt đầu từ 0')
             return false;
         } else {
             setPhone(phone)
@@ -76,7 +76,7 @@ const useRegister = () => {
             return true
         }
     }
-    const checkPassWord = (password) => {
+    const checkPassword = (password) => {
         if (!password || isValidPassword(password) === false) {
             setErrorPassword('Mật khẩu phải từ 8 kí tự bao gồm 1 chữ cái, chữ số và kí tự đặc biệt')
             return false;
@@ -89,7 +89,7 @@ const useRegister = () => {
 
     const registerUser = async () => {
         try {
-            if (checkName(name) && checkEmail(email) && checkPhone(phone) && checkPassWord(password)) {
+            if (checkName(name) && checkEmail(email) && checkPhone(phone) && checkPassword(password)) {
                 setIErrorRegister('')
                 const response = await axios.post('/api/v1/auth/register-u', {
                     U_Name: name,
@@ -118,7 +118,7 @@ const useRegister = () => {
     }
     const registerManager = async () => {
         try {
-            if (checkName(name) && checkEmail(email) && checkPhone(phone) && checkPassWord(password)) {
+            if (checkName(name) && checkEmail(email) && checkPhone(phone) && checkPassword(password)) {
                 setIErrorRegister('')
                 const response = await axios.post('/api/v1/auth/register-m', {
                     M_Name: name,
@@ -147,7 +147,7 @@ const useRegister = () => {
     }
 
     return {
-        registerUser, registerManager, checkName, checkEmail, checkPhone, checkPassWord,
+        registerUser, registerManager, checkName, checkEmail, checkPhone, checkPassword,
         errName, errEmail, errPhone, errPassword, isErrorRegister
     }
 }

@@ -32,7 +32,6 @@ const Profile = () => {
                         <Options valueSelect={valueSelect} />
                     </Grid>
                 </Grid>
-
             </Box>
         </PageContainer >
     )
