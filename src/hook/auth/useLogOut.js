@@ -24,8 +24,9 @@ const useLogOut = () => {
                 if (response.status === 0) {    // thành công
                     console.log('Đăng xuất thành công');
                     router.push('/authentication/login', undefined, { shallow: true });
+                } else {
+                    console.log('Đăng xuất không thành công');
                 }
-                console.log('Đăng xuất không thành công');
             } else {
                 console.log('Lỗi lấy dữ liệu từ API', response);
             }

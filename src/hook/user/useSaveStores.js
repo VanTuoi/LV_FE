@@ -3,7 +3,7 @@ import axios from "@/utils/axios";
 import dayjs from "dayjs";
 import useSessionStorage from "../useSessionStorage/useSessionStorage";
 
-const useManagerProfile = () => {
+const useSaveStores = () => {
 
 
     const [name, setName] = useState('')
@@ -142,4 +142,4 @@ const useManagerProfile = () => {
     }
 }
 
-export default useManagerProfile
+export default useSaveStores

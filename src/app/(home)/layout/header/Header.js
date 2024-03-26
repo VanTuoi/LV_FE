@@ -3,7 +3,6 @@ import { Box, AppBar, Toolbar, styled, Stack, IconButton } from '@mui/material';
 import PropTypes from 'prop-types';
 
 
-
 // components
 import { IconUser, IconMenu } from '@tabler/icons-react';
 import Profile from './Profile';

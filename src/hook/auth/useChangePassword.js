@@ -8,6 +8,8 @@ import axios from '@/utils/axios';
 const useChangePassword = () => {
 
     const router = useRouter()
+    const [oldPassowrd, setOldPassword] = useState('')
+    const [errOldPassowrd, setErrOldPassword] = useState('')
     const [password, setPassword] = useState('')
     const [rePassword, setRePassword] = useState('')
     const [errorPassWord, setErrorPassWord] = useState(null);
@@ -23,7 +25,16 @@ const useChangePassword = () => {
         // const regex = /^.*/;
         return regex.test(password);
     };
-
+    const checkCurrentPassword = (oldPassowrd) => {
+        setOldPassword(oldPassowrd)
+        if (oldPassowrd === '') {
+            setErrOldPassword('Mật khẩu không được trống')
+            return false
+        } else {
+            setErrOldPassword(null)
+            return true
+        }
+    }
     const checkPassword = (password) => {
         setPassword(password)
         if (password !== rePassword) {
@@ -78,8 +89,38 @@ const useChangePassword = () => {
             }
         }
     }
+
+    const changePasswordHaveLogin = async () => {
+        if (checkCurrentPassword(oldPassowrd) && checkPassword(password) && checkRePassword(rePassword)) {
+            try {
+                const response = await axios.post('/api/v1/user/change-password', {
+                    U_Current_Password: oldPassowrd,
+                    U_New_Password: password,
+                });
+                console.log('response', response);
+                if (response) {
+                    if (response.status === 0) {
+                        console.log('Đổi mật khẩu thành công');
+                        setErrorChangePassWord('success')
+                        router.replace('/user', undefined, { shallow: true });
+                    } else if (response.status === 1) {
+                        console.log('Mật khẩu hiện tại của bạn không chính xác');
+                        setErrOldPassword('Mật khẩu hiện tại của bạn không chính xác')
+                    } else {
+                        setErrorChangePassWord(response.messager)
+                        console.log('Đổi mật khẩu không thành công');
+                    }
+                } else {
+                    setErrorChangePassWord('Lỗi lấy dữ liệu từ API')
+                    console.log('Lỗi lấy dữ liệu từ API', response);
+                }
+            } catch (error) {
+                console.log('Lỗi lấy trong quá trình lấy lại mật khẩu');
+            }
+        }
+    }
     return {
-        errorChangePassword, errorPassWord, errorRePassWord, checkPassword, checkRePassword, changePassword, setJwt
+        errorChangePassword, errorPassWord, errorRePassWord, errOldPassowrd, setErrorChangePassWord, checkCurrentPassword, checkPassword, checkRePassword, changePassword, setJwt, changePasswordHaveLogin
     }
 }
 

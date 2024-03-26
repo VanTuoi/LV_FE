@@ -13,11 +13,11 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { styled } from '@mui/material/styles';
+import Link from "next/link";
 // In the Project
 import CustomTextField from '@/app/(home)/layout/shared/CustomTextField';
 import CustomTypography from '@/app/(home)/layout/shared/CustomTypography';
 import useManagerProfile from '@/hook/user/useManagerProfile';
-
 const BpIcon = styled('span')(({ theme }) => ({
     borderRadius: '50%',
     width: 16,
@@ -76,8 +76,9 @@ export default function Account() {
 
     const { errorChangeInfo, name, email, phone, birthday, gender, errName, errEmail, errPhone, errBirthday,
         checkName, checkEmail, checkPhone, checkBirthday, checkGenger, changeInfo, getInfo,
-        specialRequirements, setSpecialRequirements
+        specialRequirements, setSpecialRequirements, setErrorChangeInfo
     } = useManagerProfile()
+
 
     useEffect(() => {
         getInfo()
@@ -90,6 +91,7 @@ export default function Account() {
             } else {
                 toast.error(errorChangeInfo)
             }
+            setErrorChangeInfo(null)
         }
     }, [errorChangeInfo])
 
@@ -241,7 +243,11 @@ export default function Account() {
                     {true ? (<CustomTypography></CustomTypography>) : ''}
                 </Stack>
                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'flex-end'} width={'100%'}>
-                    <Button variant='text'>Thay đổi mật khẩu ?</Button>
+                    <Button
+                        component={Link}
+                        href="/authentication/change-password-user"
+                        variant='text'
+                    >Thay đổi mật khẩu ?</Button>
                 </Box>
                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'}>
                     <Button onClick={changeInfo} variant='contained' fullWidth>Lưu lại</Button>
