@@ -4,6 +4,7 @@ import { Stack, Box } from '@mui/material';
 import Account from './Options/Account';
 import ListStoreSave from './Options/ListStoreSave';
 import ListStoreReport from './Options/ListStoreReport';
+import ListStoreBooking from './Options/ListStoreBooking';
 // In the Project
 
 export default function NavOptions({ valueSelect }) {
@@ -21,6 +22,8 @@ export default function NavOptions({ valueSelect }) {
                 return <ListStoreSave />;
             case 'list_store_report':
                 return <ListStoreReport />;
+            case 'list_store_booking':
+                return <ListStoreBooking />;
             default:
                 return null; // Nếu không khớp với bất kỳ case nào, trả về null
         }

@@ -1,12 +1,16 @@
-import { useState } from "react";
-import axios from "@/utils/axios";
-import dayjs from "dayjs";
-import useSessionStorage from "../useSessionStorage/useSessionStorage";
 
-const useSaveStores = () => {
+//Third-party
+import dayjs from "dayjs";
+import { useState } from "react";
+
+// In the Project
+import axios from "@/utils/axios";
+
+const useTicketsBooking = () => {
 
     const [statusSave, setStatusSave] = useState(false)
-    const [listSaveStore, setListSaveStore] = useState([])
+
+    const [bookingTickets, setBookingTickets] = useState([])
 
     const getStatusSaveStore = async (id) => {
         try {
@@ -24,15 +28,15 @@ const useSaveStores = () => {
             return null
         }
     }
-    const getStatusSaveAllStore = async (id) => {
+    const getAllTicketsBooking = async () => {
         try {
-            const response = await axios.post('/api/v1/user/status-save-all-store')
+            const response = await axios.post('/api/v1/user/all-booking')
             console.log('response', response);
             if (response && response.status === 0) {
-                setListSaveStore(response.data)
+                setBookingTickets(response.data)
                 return true
             } else {
-                setListSaveStore(null)
+                setBookingTickets(null)
                 return false
             }
         } catch (error) {
@@ -73,8 +77,8 @@ const useSaveStores = () => {
         }
     }
     return {
-        statusSave, listSaveStore, getStatusSaveStore, saveStore, unSaveStore, getStatusSaveAllStore, setListSaveStore
+        bookingTickets, getAllTicketsBooking, setBookingTickets
     }
 }
 
-export default useSaveStores
+export default useTicketsBooking

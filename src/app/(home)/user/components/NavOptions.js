@@ -50,6 +50,18 @@ export default function NavOptions({ valueSelect, handleSelectOptions }) {
                     }}>
                     Danh sách báo cáo
                 </Typography>
+                <Typography onClick={() => handleSelectOptions('list_store_booking')}
+                    sx={{
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        color: valueSelect === 'list_store_booking' ? '#006BD6' : '',
+                        fontWeight: valueSelect === 'list_store_booking' ? 700 : 500,
+                        '&:hover': {
+                            color: '#007BD7'
+                        }
+                    }}>
+                    Lịch sử đặt bàn
+                </Typography>
 
             </Box>
         </Stack>

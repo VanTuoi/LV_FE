@@ -28,8 +28,6 @@ const Proflie = (props) => {
         setLocationToDB, setNameToDB, setMaxPeopleToDB, setTimeOpenToDB, setTimeCloseToDB
     } = props
 
-    console.log('maxPeopleToDB, timeOpenToDB, timeCloseToDB', maxPeopleToDB, timeOpenToDB, timeCloseToDB);
-
     const handleSliderChange = (event, newValue) => {
         setMaxPeopleToDB(newValue < 1 ? 1 : newValue)
     };

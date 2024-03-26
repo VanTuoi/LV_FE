@@ -9,6 +9,7 @@ import StoreDetails from '@/app/(home)/store/components/StoreDetails'
 import MakeTheBooking from '@/app/(home)/store/components/MakeTheBooking'
 import CusTomBreadcrumbs from "@/app/(home)/store/components/CusTomBreadcrumbs";
 import Slider from "@/app/(home)/store/components/Slider";
+import SaveStore from '@/app/(home)/store/components/SaveStore';
 
 import Textheight from '@/app/(home)/store/components/testheight'             // Test
 
@@ -30,6 +31,7 @@ const Dashboard = ({ params }) => {
                         params={`${params} ${id}`}
                     >
                     </CusTomBreadcrumbs>
+                    <SaveStore idStore={id} />
                     <Slider mt={1} />
                 </Grid>
 

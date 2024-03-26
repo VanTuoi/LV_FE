@@ -7,7 +7,7 @@ import { IconFlag, IconUserCircle, IconStar } from "@tabler/icons-react";
 import { Stack, Typography, List, IconButton, Avatar, Box, Skeleton, Select, MenuItem, Divider } from '@mui/material';
 
 // In the Project
-import useDetailProducts from '@/hook/user/useDetailProducts';
+import useDetailStore from '@/hook/user/useSort';
 
 
 const LightTooltip = styled(({ className, ...props }) => (
@@ -46,7 +46,7 @@ const list = [
 
 export default function Reviews() {
 
-    const { sortListReview } = useDetailProducts()
+    const { sortReviews } = useDetailStore()
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -60,16 +60,16 @@ export default function Reviews() {
 
     const [expanded, setExpanded] = useState(false);
 
-    const [listReview, setListReview] = useState([]);
+    const [listReview, setListReview] = useState(list);
 
     const [typeSort, setTypeSort] = useState('Newest');
 
     const handleChangeTypeSort = (event) => {
         setTypeSort(event.target.value);
         if ('HighestRating' === event.target.value)
-            setListReview(sortListReview(listReview, true, 'star'))
+            setListReview(sortReviews(listReview, true, 'star'))
         if ('LowestRaTing' === event.target.value)
-            setListReview(sortListReview(listReview, false, 'star'))
+            setListReview(sortReviews(listReview, false, 'star'))
         if ('Newest' === event.target.value) { }
 
     };

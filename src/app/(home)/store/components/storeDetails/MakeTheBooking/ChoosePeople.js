@@ -6,8 +6,8 @@ import { Button, Typography, Stack } from '@mui/material';
 // In the Project
 import useBooking from '@/hook/user/useBooking';
 import useStore from '@/hook/store/useStore';
-import { useAppSelector } from '@/lib/hooks';
-
+import useSessionStorage from '@/hook/useSessionStorage/useSessionStorage';
+import { useAppSelector } from '@/lib/hooks'
 export default function People() {
 
     const { getPeople } = useBooking()
@@ -17,14 +17,17 @@ export default function People() {
     // useEffect(() => {
     //     setMaxPeopleShow(maxPeopleAllowToRedux)
     // }, [maxPeopleAllowToRedux]);
+    const { GetItemSessionStorage } = useSessionStorage()
+
+    let isLogin = GetItemSessionStorage('U_name') // Check login
 
     const { maxPeopleAllow, getMaxPeopleAllow } = useStore()
 
     const currentPeoPle = useAppSelector((state) => state.reducer.booking.people)
 
-    const checkHaveLogin = useAppSelector((state) => state.reducer.user.info.U_Id)
+    const checkHaveLogin = isLogin
 
-    const [isMore, setIsMore] = useState(false)
+    const [isMore, setIsMore] = useState(true)
 
     const [selectPeople, setSelectPeople] = useState(1)
 
